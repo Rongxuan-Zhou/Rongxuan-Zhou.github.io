@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rongxuan Zhou - Robotics Research Scientist</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *:focus {
+            outline: none !important;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Pro Display', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a1a 50%, #0f1419 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-feature-settings: "liga" 1, "kern" 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #4f46e5, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: rgba(79, 70, 229, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #6366f1, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease-out;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            margin-bottom: 2rem;
+            color: #e2e8f0;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-buttons .btn {
+            min-width: 160px;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Waymo-inspired scroll animations */
+        .parallax-element {
+            will-change: transform;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .stagger-animation .experience-card,
+        .stagger-animation .skill-category,
+        .stagger-animation .contact-card {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stagger-animation .experience-card.revealed,
+        .stagger-animation .skill-category.revealed,
+        .stagger-animation .contact-card.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Enhanced hover effects */
+        .experience-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 25px 60px rgba(99, 102, 241, 0.25);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Section transitions */
+        .section {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.5), transparent);
+            transform: translateX(-50%);
+        }
+
+        .section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ffffff, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            border: none;
+            outline: none;
+            overflow: hidden;
+            position: relative;
+            padding: 8px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            background: transparent;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image i {
+            border: none;
+            outline: none;
+            display: none; /* 隐藏原来的图标 */
+        }
+
+        .about-text {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.8;
+            color: #e2e8f0;
+            text-align: left;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            text-indent: 0;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Experience Timeline */
+        .experience-timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        /* 主时间轴线 */
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, transparent, #6366f1, #06b6d4, transparent);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 4rem;
+            width: 100%;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 左侧卡片 */
+        .timeline-item.left .timeline-card {
+            margin-left: 0;
+            margin-right: 60%;
+            text-align: right;
+        }
+
+        /* 右侧卡片 */
+        .timeline-item.right .timeline-card {
+            margin-left: 60%;
+            margin-right: 0;
+            text-align: left;
+        }
+
+        .timeline-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+
+        /* 时间点 */
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 2.5rem;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #6366f1, #06b6d4);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            border: 3px solid rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+        }
+
+        /* 移除连接线 - 完全删除干涉元素 */
+        .timeline-item::after {
+            display: none;  /* 完全隐藏连接线 */
+        }
+
+        .timeline-item.left::after {
+            display: none;
+        }
+
+        .timeline-item.right::after {
+            display: none;
+        }
+
+        /* 移除卡片边缘指示器 */
+        .timeline-card::before {
+            display: none;
+        }
+
+        .timeline-item.left .timeline-card::before {
+            display: none;
+        }
+
+        .timeline-item.right .timeline-card::before {
+            display: none;
+        }
+
+        /* 时间标签 */
+        .timeline-date {
+            position: absolute;
+            left: 50%;
+            top: 4rem;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #06b6d4;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            z-index: 3;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        /* 卡片内容样式调整 */
+        .timeline-card h3 {
+            color: #6366f1;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .timeline-card .company {
+            color: #06b6d4;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+            line-height: 1.3;
+        }
+
+        .timeline-card .location {
+            color: #a1a1aa;
+            font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+            margin-bottom: 0.8rem;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .timeline-card .location::before {
+            content: '📍';
+            margin-right: 0.5rem;
+            font-style: normal;
+        }
+
+        .timeline-card .highlights {
+            list-style: none;
+            margin-top: 0.8rem;
+            text-align: left; /* 确保列表项始终左对齐 */
+        }
+
+        .timeline-card .highlights li {
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: clamp(0.9rem, 1.6vw, 0.95rem);
+            line-height: 1.45;
+            word-wrap: break-word;
+            word-break: normal;
+            hyphens: none;
+        }
+
+        .timeline-card .highlights li::before {
+            content: '▶';
+            color: #6366f1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.8em;
+        }
+
+        .timeline-card .highlights li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 可点击链接高亮样式 */
+        .lab-link {
+            color: #06b6d4 !important;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+            padding: 0.2rem 0;
+            display: inline-block;
+        }
+
+        .lab-link::after {
+            content: '🏢';
+            margin-left: 0.5rem;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .lab-link:hover {
+            color: #67e8f9 !important;
+            border-bottom-color: #06b6d4;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+        }
+
+        .research-paper-link {
+            color: #6366f1 !important;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+            padding: 0.2rem 0;
+            display: inline-block;
+        }
+
+        .research-paper-link::after {
+            content: '📄';
+            margin-left: 0.5rem;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .research-paper-link:hover {
+            color: #8b5cf6 !important;
+            border-bottom-color: #6366f1;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        /* 外部链接通用样式 */
+        .lab-link::before,
+        .research-paper-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -0.3rem;
+            right: -0.3rem;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .lab-link:hover::before,
+        .research-paper-link:hover::before {
+            opacity: 1;
+        }
+
+        /* 移动端链接样式调整 */
+        @media (max-width: 768px) {
+            .lab-link,
+            .research-paper-link,
+            .professor-link {
+                display: inline;
+                padding: 0.1rem 0;
+            }
+
+            .lab-link::after,
+            .research-paper-link::after,
+            .professor-link::after {
+                margin-left: 0.3rem;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+
+            /* Timeline responsive */
+            .experience-timeline::before {
+                left: 2.5rem;
+            }
+
+            .timeline-item.left .timeline-card,
+            .timeline-item.right .timeline-card {
+                margin-left: 5rem;
+                margin-right: 0;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 2.5rem;
+            }
+
+            .timeline-date {
+                left: 2.5rem;
+                transform: none;
+            }
+
+            .timeline-item.left::after,
+            .timeline-item.right::after {
+                display: none;  /* 移动端也完全隐藏连接线 */
+            }
+
+            /* 移动端卡片指示器也移除 */
+            .timeline-item.left .timeline-card::before,
+            .timeline-item.right .timeline-card::before {
+                display: none;
+            }
+
+            .education-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .education-card h3 {
+                white-space: normal !important;  /* 在移动端允许换行 */
+                overflow: visible;
+                text-overflow: clip;
+                font-size: 1.1rem;  /* 移动端稍微减小字体 */
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: none;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: none;
+            }
+
+            .about-text {
+                text-align: center;
+            }
+
+            /* Allow controlled wrapping on mobile for long text */
+            .contact-card a {
+                white-space: normal;
+                word-break: break-word;
+                hyphens: auto;
+                line-height: 1.4;
+            }
+
+            .timeline-card .company {
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+            }
+
+            .timeline-card h3 {
+                white-space: normal;
+                font-size: 1.2rem;  /* 稍微增大移动端标题字体 */
+            }
+
+            .timeline-card h4 {
+                white-space: normal !important;  /* 在移动端允许换行 */
+                font-size: 0.9rem;
+            }
+
+            .skill-category h3 {
+                white-space: normal;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .project-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .project-card h3 {
+                font-size: 1.1rem;
+                line-height: 1.4;
+            }
+
+            .tech-tag {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            .experience-card,
+            .skill-category,
+            .contact-card,
+            .education-card {
+                padding: 1.2rem;
+                min-height: auto;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Allow more flexible text wrapping on very small screens */
+            .skill-category h3 {
+                align-items: flex-start;
+                text-align: left;
+                white-space: normal;
+            }
+
+            .experience-card h3 {
+                max-height: none;
+                overflow: visible;
+            }
+        }
+
+        /* Medium screen sizes (tablets) */
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        /* Desktop specific styles */
+        @media (min-width: 769px) {
+            .contact-card a {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+                display: inline-block;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Large desktop screens */
+        @media (min-width: 1400px) {
+            .experience-grid {
+                grid-template-columns: repeat(2, 1fr);  /* 在大屏幕上强制两列 */
+                max-width: 1400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .experience-card {
+                padding: 1.75rem;  /* 在大屏幕上稍微增加padding */
+            }
+
+            .experience-card .highlights li {
+                font-size: 0.95rem;  /* 在大屏幕上使用固定字体大小 */
+                line-height: 1.5;
+            }
+        }
+
+        /* Typography improvements */
+        h1, h2, h3, h4, h5, h6 {
+            font-feature-settings: "liga" 1, "kern" 1;
+            text-rendering: optimizeLegibility;
+        }
+
+        p, li, a {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Text selection styling */
+        ::selection {
+            background: rgba(99, 102, 241, 0.3);
+            color: #ffffff;
+        }
+
+        ::-moz-selection {
+            background: rgba(99, 102, 241, 0.3);
+            color: #ffffff;
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .education-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+
+        .education-card h3 {
+            color: #6366f1;
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+            line-height: 1.3;
+        }
+
+        .education-card .university {
+            color: #06b6d4;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .education-card .location {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .education-card .location::before {
+            content: '📍';
+            margin-right: 0.5rem;
+        }
+
+        .education-card .date {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .education-card .details p {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
+        }
+
+        .education-card .details p:last-child {
+            margin-bottom: 0;
+        }
+
+        .education-card .coursework {
+            margin-top: 0.5rem;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            min-height: 200px;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+
+        .skill-category h3 {
+            color: #4f46e5;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(79, 70, 229, 0.2);
+            color: #c7d2fe;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(79, 70, 229, 0.3);
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            min-width: 300px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .contact-card i {
+            font-size: 2.5rem;
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            color: #ffffff;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .contact-card a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: clamp(0.9rem, 1.8vw, 0.95rem);
+            white-space: nowrap;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .contact-card a:hover {
+            color: #6366f1;
+        }
+
+        .contact-card p {
+            color: #e2e8f0;
+            font-size: clamp(0.9rem, 1.8vw, 0.95rem);
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: #a1a1aa;
+            font-size: clamp(0.85rem, 1.5vw, 0.9rem);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Responsive Design */
+        .professor-link {
+            color: #8b5cf6 !important;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            padding: 0.2rem 0;
+            display: inline-block;
+        }
+
+        .professor-link::after {
+            content: '👨‍🏫';
+            margin-left: 0.5rem;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .professor-link:hover {
+            color: #a78bfa !important;
+            border-bottom-color: #8b5cf6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .professor-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -0.3rem;
+            right: -0.3rem;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .professor-link:hover::before {
+            opacity: 1;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #6366f1, #06b6d4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .project-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .project-link:hover {
+            background: rgba(79, 70, 229, 0.3);
+            border-color: rgba(79, 70, 229, 0.5);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .project-card h3 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .project-description {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(79, 70, 229, 0.2);
+            color: #c7d2fe;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(79, 70, 229, 0.3);
+            white-space: nowrap;
+        }
+
+        .project-highlights {
+            margin-top: 1rem;
+        }
+
+        .project-highlights ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .project-highlights li {
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .project-highlights li::before {
+            content: '▶';
+            color: #6366f1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.8em;
+        }
+
+        .project-highlights li:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RZ</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Rongxuan Zhou</h1>
+            <p>Robotics Researcher specializing in Real-Time Control Systems, Industrial Automation, and Autonomous Systems</p>
+            <div class="hero-buttons">
+                <a href="#experience" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    View My Work
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i>
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="ChatGPT Image May 28, 2025, 09_57_21 PM.png" alt="Rongxuan Zhou">
+            </div>
+            <div class="about-text">
+                <p>I'm a passionate robotics researcher pursuing my Master's in Robotics at Northeastern University. With extensive experience in industrial automation, autonomous systems, and real-time control, I bridge the gap between cutting-edge research and practical engineering solutions.</p>
+                <p>My work spans from developing EtherCAT communication protocols for industrial manipulators to implementing advanced perception pipelines for autonomous vehicles. I'm particularly interested in real-time systems, multi-robot coordination, and the intersection of machine learning with robotics control.</p>
+                <p>Currently seeking opportunities to contribute to innovative robotics research while pursuing my goal of advancing the field of intelligent autonomous systems.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <h2>Research & Industry Experience</h2>
+        <div class="experience-timeline">
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Jan 2025 - May 2025</div>
+                <div class="timeline-card">
+                    <h3>Research Assistant</h3>
+                    <div class="company">Northeastern University</div>
+                    <div class="location">Boston, MA, USA</div>
+                    <ul class="highlights">
+                        <li>Integrated state-of-the-art diffusion models with formal CLF/CBF safety guarantees to enable real-time, safe trajectory generation for robotic manipulators</li>
+                        <li>Pioneered a dynamic safety framework that leverages joint bracing to adaptively expand the robot's safe operating zone during human-robot interaction</li>
+                        <li>Demonstrated enhanced safety and operational efficiency on a Franka Emika robot, allowing for more fluid and robust human-robot collaboration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Dec 2023 - Apr 2024</div>
+                <div class="timeline-card">
+                    <h3>Robotics Software Engineer Intern</h3>
+                    <div class="company">CloudMinds Robotics Co., Ltd</div>
+                    <div class="location">Shanghai, China</div>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">Industrial Manipulator Real-Time Communication (CODESYS V3.5 SP17)</h4>
+                        <ul class="highlights">
+                            <li>Developed EtherCAT master module enabling 1kHz synchronous sampling for 6-axis F/T sensors, reducing joint control cycle from 20ms to 12ms (CiA402 conformance tested)</li>
+                            <li>Refactored PLC logic using IEC 61131-3 ST, achieving ±0.03mm trajectory repeatability (ISO 9283 certified)</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">Flexible Grasping Control (ROS2 Control)</h4>
+                        <ul class="highlights">
+                            <li>Implemented data-driven impedance controller replacing Hogan model, achieving 400Hz real-time control on UR5e with 42% vibration reduction (72-hour aging test passed)</li>
+                            <li>Developed OPC UA gateway bridging ROS2 with Siemens S7-1500 PLC, command transmission jitter ≤±2ms</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">Equipment Monitoring Toolkit Development</h4>
+                        <ul class="highlights">
+                            <li>Built lightweight monitoring GUI with PyQt+MQTT for millisecond-level visualization (torque/temperature/pose), supporting direct Modbus-TCP connection with production-line devices</li>
+                            <li>Designed time-series data storage architecture (SQLite→InfluxDB migration plan), increased automated report generation efficiency by 50% with 300-hour continuous operation stress test validation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Jun 2022 - Aug 2024</div>
+                <div class="timeline-card">
+                    <h3>Research Assistant</h3>
+                    <div class="company"><a href="https://iwin-fins.com/" target="_blank" class="lab-link">IWIN-FINS Lab</a>, Shanghai Jiaotong University</div>
+                    <div class="location">Shanghai, China</div>
+                    <div style="color: #a1a1aa; font-size: 0.9rem; margin-bottom: 0.8rem;">
+                        Advised by <a href="https://scholar.google.com/citations?hl=zh-CN&user=uMFWYBoAAAAJ" target="_blank" class="professor-link">Prof. Jianping He</a>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem; white-space: nowrap;">
+                            <a href="https://gitee.com/organizations/fins-robotics/projects" target="_blank" style="color: #6366f1; text-decoration: none;">Industrial AGV-Manipulator Coordination System</a>
+                        </h4>
+                        <ul class="highlights">
+                            <li>Developed real-time multi-threaded architecture achieving 15ms pose synchronization between UR5e manipulator and AGV chassis on Intel i7-NUC, ensuring deterministic communication via ROS2 Cyclone DDS</li>
+                            <li>Built perception pipeline integrating YOLOv8-ORT accelerated model with enhanced ICP registration, achieving 93% obstacle avoidance success rate in environments with ≥8 dynamic obstacles/㎡ (ISO 13849 PLC compliant)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">Air-Ground Cooperative Transport System (NVIDIA Jetson AGX Xavier)</h4>
+                        <ul class="highlights">
+                            <li>Designed hybrid planner combining RRT* and artificial potential field, completing dynamic obstacle trajectory prediction within 5ms cycles (Gazebo+HIL validated)</li>
+                            <li>Developed distributed middleware using ZeroMQ+Protobuf, achieving ≤35ms end-to-end latency in 1km LoRa field tests</li>
+                            <li>Migrated Gazebo-simulated MPC controller to PX4 HIL system, realizing outdoor hovering RMSE 0.15m (9% error increase vs simulation)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Jul 2023 - Oct 2023</div>
+                <div class="timeline-card">
+                    <h3>Autonomous Driving ML Intern</h3>
+                    <div class="company">NIO Automobile Co., Ltd</div>
+                    <div class="location">Shanghai, China</div>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">CAN FD Signal Robustness Framework</h4>
+                        <ul class="highlights">
+                            <li>Built GAN-based signal synthesizer (PyTorch), generating 5× training data with Gaussian noise (σ=0.1V) and protocol faults, improving ECU test coverage by 35%</li>
+                            <li>Reduced debugging time by 40% via Python-CAPL API integration for real-time anomaly detection (±3σ threshold)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">Sim-to-Real Control Policy Transfer</h4>
+                        <ul class="highlights">
+                            <li>Implemented gradient reversal layers for CARLA→ET5 feature alignment, reducing lateral error by 37% (NIO ET5 field tests)</li>
+                            <li>Engineered time-frequency features (FFT peaks, zero-crossing rate), achieving 85% accuracy for SVM classifier across 50+ failure modes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Jun 2022 - Apr 2023</div>
+                <div class="timeline-card">
+                    <h3>Research Assistant</h3>
+                    <div class="company">Shanghai University</div>
+                    <div class="location">Shanghai, China</div>
+                    <div style="color: #a1a1aa; font-size: 0.9rem; margin-bottom: 0.8rem;">
+                        <a href="https://imrobot.shu.edu.cn/" target="_blank" class="lab-link">Shanghai Key Laboratory of Intelligent Manufacturing and Robotics</a>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <h4 style="color: #6366f1; font-size: 0.95rem; margin-bottom: 0.4rem;">
+                            <a href="https://iopscience.iop.org/article/10.1088/1742-6596/2587/1/012088/pdf" target="_blank" class="research-paper-link">Simulation Research on Residual Stress of Swage Autofrettage-processed High-Pressure Cylinder</a>
+                        </h4>
+                        <ul class="highlights">
+                            <li>Constructed a comprehensive simulation model using ANSYS Workbench and MATLAB to implement Bauschinger effect in swage autofrettage processes, achieving simulation accuracy within 5% of experimental data</li>
+                            <li>Optimized mandrel structural parameters through SolidWorks modeling and ABAQUS optimization algorithms, testing 12 configurations that increased cylinder inner wall compressive stress by 23% and fatigue life by 40%</li>
+                            <li>Developed an evaluation methodology for residual compressive stress using LabVIEW data acquisition and Arduino-controlled testing platforms, establishing quantitative relationships between interference percentage and stress distribution</li>
+                            <li>Published research in Journal of Physics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rongxuan-Zhou/Autonomous-Driving-Scene-Analysis-Using-Waymo-Dataset" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <h3>Autonomous Driving Scene Analysis Using Waymo Dataset</h3>
+                <p class="project-description">Interactive data visualization tool for analyzing autonomous driving scenes using Waymo Open Dataset and Foxglove Studio. Implements 3D point cloud processing, object detection, and multi-sensor fusion for urban, suburban, and nighttime driving scenarios.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">TensorFlow</span>
+                    <span class="tech-tag">Waymo Dataset</span>
+                    <span class="tech-tag">Foxglove Studio</span>
+                    <span class="tech-tag">MCAP</span>
+                    <span class="tech-tag">Point Cloud Processing</span>
+                </div>
+                <div class="project-highlights">
+                    <ul>
+                        <li>3D LiDAR point cloud visualization and segmentation</li>
+                        <li>Multi-sensor data fusion and synchronization</li>
+                        <li>Real-time scene classification (urban/suburban/nighttime)</li>
+                        <li>Interactive dashboard for autonomous driving analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rongxuan-Zhou/CS6120_project" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <h3>CS6120 Advanced Machine Learning Project</h3>
+                <p class="project-description">Advanced machine learning research project implementing state-of-the-art algorithms for real-world applications. Focuses on novel approaches to optimization, neural architecture search, and model interpretability.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">PyTorch</span>
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">Neural Networks</span>
+                    <span class="tech-tag">Optimization</span>
+                </div>
+                <div class="project-highlights">
+                    <ul>
+                        <li>Novel neural architecture optimization techniques</li>
+                        <li>Model interpretability and explainability methods</li>
+                        <li>Performance benchmarking on multiple datasets</li>
+                        <li>Comprehensive experimental analysis and evaluation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rongxuan-Zhou/FAST_LIO_Loop_Closure_Test_On_NUANCE" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <h3>FAST-LIO Loop Closure Test on NUANCE Dataset</h3>
+                <p class="project-description">Implementation and evaluation of FAST-LIO (Fast LiDAR-Inertial Odometry) algorithm with loop closure detection on the NUANCE dataset. Focuses on real-time SLAM performance in challenging indoor environments.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">ROS</span>
+                    <span class="tech-tag">SLAM</span>
+                    <span class="tech-tag">LiDAR</span>
+                    <span class="tech-tag">IMU Fusion</span>
+                    <span class="tech-tag">Loop Closure</span>
+                </div>
+                <div class="project-highlights">
+                    <ul>
+                        <li>Real-time LiDAR-Inertial odometry and mapping</li>
+                        <li>Advanced loop closure detection algorithms</li>
+                        <li>Performance evaluation on NUANCE dataset</li>
+                        <li>Optimization for challenging indoor scenarios</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+        <h2>Education</h2>
+        <div class="education-grid">
+            <div class="education-card">
+                <h3>Master of Science in Robotics</h3>
+                <div class="university">Northeastern University</div>
+                <div class="location">Boston, MA, USA</div>
+                <div class="date">Aug 2024 - Dec 2026</div>
+                <div class="details">
+                    <p>Concentration: Electrical and Computer Engineering</p>
+                    <p class="coursework"><strong>Relevant Coursework:</strong> Robotics Sensing and Navigation, Robot Mechanics and Control, Natural Language Processing, Data Visualization</p>
+                </div>
+            </div>
+
+            <div class="education-card">
+                <h3>Bachelor of Engineering in Mechanical Engineering and Automation</h3>
+                <div class="university">Northeastern University</div>
+                <div class="location">Shenyang, China</div>
+                <div class="date">Sep 2020 - Jul 2024</div>
+                <div class="details">
+                    <p>Awarded University Outstanding Thesis</p>
+                    <p class="coursework"><strong>Thesis:</strong> "ML-Driven Spraying Robot Path Optimization"</p>
+                    <p class="coursework"><strong>Relevant Coursework:</strong> Mechatronic System Design, Design & Analysis of Robot System, Modern Control Theory</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <h2>Technical Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-brain"></i> Machine Learning & AI</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Reinforcement Learning Motion Planning</span>
+                    <span class="skill-tag">GAN-based Signal Synthesis</span>
+                    <span class="skill-tag">PyTorch</span>
+                    <span class="skill-tag">CARLA Sim2Real Policy Transfer</span>
+                    <span class="skill-tag">Computer Vision</span>
+                    <span class="skill-tag">YOLOv8</span>
+                    <span class="skill-tag">Diffusion Models</span>
+                    <span class="skill-tag">CLF/CBF Safety Guarantees</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-cogs"></i> Robotics Development</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">ROS2</span>
+                    <span class="skill-tag">Real-Time EtherCAT Integration</span>
+                    <span class="skill-tag">Multi-Threaded Architecture</span>
+                    <span class="skill-tag">Motion Planning</span>
+                    <span class="skill-tag">SLAM</span>
+                    <span class="skill-tag">Impedance Control</span>
+                    <span class="skill-tag">Real-Time Control</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-industry"></i> Industrial Automation</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">OPC UA/Modbus-TCP Gateways</span>
+                    <span class="skill-tag">PLC Programming</span>
+                    <span class="skill-tag">PyQt-MQTT Monitoring Toolkit</span>
+                    <span class="skill-tag">CODESYS</span>
+                    <span class="skill-tag">IEC 61131-3</span>
+                    <span class="skill-tag">Siemens S7-1500</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-code"></i> Software Engineering</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">C++17/20 Real-Time Optimization</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">CI/CD Pipelines</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Linux</span>
+                    <span class="skill-tag">MATLAB</span>
+                    <span class="skill-tag">LabVIEW</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <h2>Let's Connect</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <a href="mailto:zhou.rongx@northeastern.edu">zhou.rongx@northeastern.edu</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fab fa-linkedin"></i>
+                <h3>LinkedIn</h3>
+                <a href="https://www.linkedin.com/in/rongxuan-zhou-aa4a8b32a/" target="_blank">Connect with me</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fab fa-github"></i>
+                <h3>GitHub</h3>
+                <a href="https://github.com/Rongxuan-Zhou" target="_blank">View my code</a>
+            </div>
+
+            <div class="contact-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Location</h3>
+                <p>Boston, MA</p>
+                <p style="color: #a1a1aa; font-size: 0.9rem; margin-top: 0.5rem;">Shanghai, China</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Rongxuan Zhou. Designed for innovation in robotics and autonomous systems.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Enhanced navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            const scrollY = window.scrollY;
+            
+            if (scrollY > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+                nav.style.backdropFilter = 'blur(30px)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.9)';
+                nav.style.backdropFilter = 'blur(20px)';
+            }
+        });
+
+        // Waymo-inspired scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        // Main scroll reveal observer
+        const scrollObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        // Staggered animation observer
+        const staggerObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const children = entry.target.children;
+                    Array.from(children).forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('revealed');
+                        }, index * 150); // Stagger delay
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Initialize scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add scroll-reveal class to sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('scroll-reveal');
+                scrollObserver.observe(section);
+            });
+
+            // Add stagger animation to grids
+            document.querySelectorAll('.experience-timeline').forEach(grid => {
+                grid.classList.add('stagger-animation');
+                staggerObserver.observe(grid);
+            });
+
+            // Parallax effect for hero background
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+            });
+
+            // Smooth mouse-follow effect for cards
+            document.querySelectorAll('.timeline-card').forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 20;
+                    const rotateY = (centerX - x) / 20;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+            });
+        });
+
+        // Performance optimization: throttle scroll events
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        // Apply throttling to scroll events
+        window.addEventListener('scroll', throttle(function() {
+            // Additional scroll-based animations can be added here
+        }, 16)); // ~60fps
+    </script>
+</body>
+</html>
