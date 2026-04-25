@@ -356,8 +356,8 @@
         <div class="col-md-8">
           <div class="paper-info">
             <heading>
-              Is Your Policy Actually Using Touch? Diagnosing Modality Suppression
-              in Tactile-Conditioned Transformers
+              Is Your Policy Actually Using Force? Why Concatenation Fails for
+              Contact-Force Integration in Sequential Robot Policies
             </heading>
             <div class="paper-meta">
               <strong>Rongxuan Zhou</strong> and Gilbert Yang Ye
@@ -371,31 +371,37 @@
             </div>
             <div class="abs-block" id="abs1">
               <p>
-                We demonstrate that standard Transformer self-attention systematically suppresses
-                weak auxiliary modalities (physics/tactile tokens) in robot manipulation policies.
-                Gradient-level interventions fail to resolve attention-level suppression; only
-                architectural bypass (FiLM, CrossAttn) restores functional utilization
-                (IG ratio 3.0&ndash;3.7&times; vs &asymp;1&times; for concatenation). Under vision
-                degradation, physics-utilizing policies degrade gracefully (97%&rarr;70% SR) while
-                suppressed policies fail consistently (33%&rarr;20%), with non-overlapping 95% CIs.
+                Multi-modal sequential policies fuse proprioception, vision, and auxiliary
+                modalities by concatenating them into a shared processing sequence &mdash; yet on
+                a contact-rich nut-threading task, na&iuml;ve raw-force concatenation reduces
+                success rate by 32 percentage points compared to ignoring force entirely. We
+                show that FiLM side-channel conditioning bypasses competitive normalization in
+                self-attention and LSTM gating layers, restoring force utility (+17 pp on
+                NutThread, non-overlapping 95% CIs). To diagnose suppression post-hoc without
+                retraining, we introduce R<sub>contact</sub>, a contact-sensitivity ratio via
+                Integrated Gradients that reliably distinguishes suppressed (&asymp;1&times;)
+                from functional (3.0&ndash;3.7&times;) architectures. Validated across 5
+                contact-rich tasks on two simulators (robosuite imitation learning + Isaac Lab
+                Factory reinforcement learning).
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Paper 2: LSDP -->
+      <!-- Paper 2: TACS -->
       <div class="row paper-row align-items-start mt-40">
         <div class="col-md-4 paper-thumbnail">
-          <div class="deploying-thumb">
-            <span class="deploying-label">Deploying<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
-          </div>
+          <video autoplay loop muted playsinline preload="metadata"
+                 style="width:90%; aspect-ratio:16/10; object-fit:cover; border-radius:10px; border:1px solid #eee; background:#000;">
+            <source src="images/publications/tacs_demo_grid.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="col-md-8">
           <div class="paper-info">
             <heading>
-              Train Safe, Infer Fast: Integrating Control Barriers into
-              Diffusion Policy Learning
+              TACS: Training-Free Safety Guidance for Action-Space Diffusion
+              Policies via Tweedie-Adaptive Constrained Sampling
             </heading>
             <div class="paper-meta">
               <strong>Rongxuan Zhou</strong> and Gilbert Yang Ye
@@ -409,11 +415,18 @@
             </div>
             <div class="abs-block" id="abs2">
               <p>
-                LSDP embeds Control Barrier Function information into diffusion policy training via
-                exponential-weighted loss with Tweedie-predicted clean trajectories. This eliminates
-                per-step safety correction at inference, achieving 27&times; speedup over SafeDiffuser
-                (17 ms vs 473 ms) while improving task success from 80.3% to 100% and reducing
-                constraint violations from 43.1% to 34.0% on contact-rich insertion tasks.
+                Diffusion policies have become the dominant paradigm for learned robotic
+                manipulation, yet they offer no intrinsic mechanism to enforce workspace safety
+                constraints. TACS is a training-free method that injects barrier-function
+                guidance into the DDIM denoising loop of action-space diffusion policies,
+                applying repulsive guidance on the Tweedie-predicted end-effector positions;
+                subsequent denoising steps coherently adapt rotation and gripper dimensions,
+                achieving effective obstacle avoidance at 10&times; smaller guidance scales than
+                post-hoc potential-field projection. On three robosuite manipulation tasks, TACS
+                Pareto-dominates post-hoc filtering, with a statistically significant win-win on
+                Lift (violations 6.6% &rarr; 0.32%, 20&times; reduction; p=0.015 across 5 seeds
+                &times; 250 episodes) and zero measurable inference overhead versus the
+                unmodified diffusion policy.
               </p>
             </div>
           </div>
