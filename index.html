@@ -348,8 +348,60 @@
         </div>
       </div>
 
-      <!-- Paper 1: SPINE -->
+      <!-- Paper 0: PRISM -->
       <div class="row paper-row align-items-start">
+        <div class="col-md-4 paper-thumbnail">
+          <div class="deploying-thumb">
+            <span class="deploying-label">Figure<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="paper-info">
+            <heading>
+              PRISM: PRior-guided Imagination Sampling in World Models
+            </heading>
+            <div class="paper-meta">
+              Yuhai Wang, Jiawei Xia, <strong>Rongxuan Zhou</strong>, Xiao Hu,
+              Yongliang Shi, Jing Du, and Yang Ye
+              <br>
+              arXiv preprint, 2026
+            </div>
+            <div class="paper-links">
+              <a href="#" onclick="toggleAbs('absPrism'); return false;">[Abstract]</a>
+              <a href="https://arxiv.org/pdf/2606.07974" target="_blank" rel="noopener">[Paper]</a>
+              <a href="https://yuhaiw.github.io/PRISM_web/" target="_blank" rel="noopener">[Website]</a>
+              <a href="https://github.com/YuhaiW/prism-jepa" target="_blank" rel="noopener">[Code]</a>
+            </div>
+            <div class="abs-block" id="absPrism">
+              <p>
+                A learned world model provides a powerful physical intuition for evaluating future
+                states. But its effectiveness in continuous control also depends critically on how
+                candidate actions are generated for model-based planning. Rather than solely asking
+                how accurately a model can simulate the future, we ask: which candidate actions are
+                worth evaluating in the first place? Existing planners typically search arbitrarily
+                or use expert demonstrations only to initialize a sampling mean, discarding the
+                expert's state-conditioned confidence. Properly guiding this search requires a robust
+                action prior, yet current approaches often rely on independent visual encoders or
+                large-scale VLMs to obtain one. We argue that this architectural bloat is unnecessary:
+                the exact same data &mdash; and the learned representations of the world model itself
+                &mdash; inherently encode the agent's action intuition. We introduce PRISM, a
+                task-agnostic framework that extracts both from a single dataset while maintaining
+                strict architectural simplicity. Building on a standard JEPA-style latent world model,
+                PRISM attaches a lightweight MLP directly to its frozen encoder to predict a
+                state-conditioned Gaussian prior. At plan time, PRISM fuses this prior into the
+                planner's sampling distribution via a precision-weighted Product-of-Gaussians update.
+                This parameter-free, closed-form integration steers the sampling process, making the
+                prior confident where it is and ceding control where it is not. PRISM improves success
+                rates by 35 percentage points over vanilla world-model-based MPC on Cube and 32
+                percentage points on PushT, without introducing significant inference overhead.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper 1: SPINE -->
+      <div class="row paper-row align-items-start mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div class="deploying-thumb">
             <span class="deploying-label">Deploying<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
@@ -452,14 +504,14 @@
             <div class="paper-meta">
               W. Xi, J. Guo, C. Wang, S. Wu, and J. He
               <br>
-              <span class="paper-tag tag-iros">IROS 2025</span> Hangzhou, China
+              <span class="paper-tag tag-iros">IROS 2025</span> IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
               <br>
               <em>Contribution: Lead designer of mechanical architecture and simulation environment
               for the &ldquo;Fines&rdquo; steerable wheeled mobile robot platform</em>
             </div>
             <div class="paper-links">
               <a href="#" onclick="toggleAbs('abs3'); return false;">[Abstract]</a>
-              <a href="Research/A_Robust_Distributed_Odometry_for_Mobile_Robots_with_Steerable_Wheels.pdf" target="_blank" rel="noopener">[Project]</a>
+              <a href="Research/A_Robust_Distributed_Odometry_for_Mobile_Robots_with_Steerable_Wheels.pdf" target="_blank" rel="noopener">[Paper]</a>
               <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Code]</a>
             </div>
             <div class="abs-block" id="abs3">
@@ -492,12 +544,13 @@
             <div class="paper-meta">
               L. Sun, <strong>R. Zhou</strong>, G. Li, J. Li, and P. Mitrouchev
               <br>
-              <span class="paper-tag tag-published">Published</span>
-              <em>J. Phys.: Conf. Ser.</em>, vol. 2587, 012088, 2023. (EI Indexed)
+              <em>Journal of Physics: Conference Series</em>, vol. 2587, 012088, 2023 (EI Indexed).
+              Proceedings of the 2023 9th International Conference on Applied Materials and
+              Manufacturing Technology (ICAMMT-2023).
             </div>
             <div class="paper-links">
               <a href="#" onclick="toggleAbs('abs4'); return false;">[Abstract]</a>
-              <a href="Research/Sun_2023_J._Phys.__Conf._Ser._2587_012088.pdf" target="_blank" rel="noopener">[Project]</a>
+              <a href="Research/Sun_2023_J._Phys.__Conf._Ser._2587_012088.pdf" target="_blank" rel="noopener">[Paper]</a>
               <a href="#" onclick="toggleBib('bib4'); return false;">[BibTeX]</a>
             </div>
             <div class="abs-block" id="abs4">
