@@ -36,12 +36,12 @@
       margin-bottom: 0;
       padding-bottom: 0;
     }
-    section.research .paper-info heading {
+    section.research .paper-info h3 {
       display: block;
       font-weight: 800;
       font-size: 15px;
       line-height: 1.4;
-      margin-bottom: 4px;
+      margin: 0 0 4px;
       color: #222;
     }
     section.research .paper-info .paper-meta {
@@ -275,7 +275,7 @@
         <!-- Photo -->
         <div class="col-md-4 col-lg-4">
           <div class="about-img">
-            <img src="images/profile/IMG_9286.jpeg" alt="Portrait of Rongxuan Zhou" loading="lazy" style="width:75%; display:block; margin:0 auto;">
+            <img src="images/profile/profile.jpg" alt="Portrait of Rongxuan Zhou" loading="lazy" style="width:75%; display:block; margin:0 auto;">
           </div>
         </div>
 
@@ -357,9 +357,9 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>
+            <h3>
               PRISM: PRior-guided Imagination Sampling in World Models
-            </heading>
+            </h3>
             <div class="paper-meta">
               Yuhai Wang, Jiawei Xia, <strong>Rongxuan Zhou</strong>, Xiao Hu,
               Yongliang Shi, Jing Du, and Yang Ye
@@ -409,10 +409,10 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>
+            <h3>
               Is Your Policy Actually Using Force? Why Concatenation Fails for
               Contact-Force Integration in Sequential Robot Policies
-            </heading>
+            </h3>
             <div class="paper-meta">
               <strong>Rongxuan Zhou</strong> and Gilbert Yang Ye
             </div>
@@ -451,10 +451,10 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>
+            <h3>
               TACS: Training-Free Safety Guidance for Action-Space Diffusion
               Policies via Tweedie-Adaptive Constrained Sampling
-            </heading>
+            </h3>
             <div class="paper-meta">
               <strong>Rongxuan Zhou</strong> and Gilbert Yang Ye
               <br>
@@ -496,9 +496,9 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>
+            <h3>
               A Robust Distributed Odometry for Mobile Robots with Steerable Wheels
-            </heading>
+            </h3>
             <div class="paper-meta">
               Wang Xi, Jiaming Guo, Chenyang Wang, Shukun Wu, and Jianping He
               <br>
@@ -535,10 +535,10 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>
+            <h3>
               Simulation Research on Residual Stress of Swage Autofrettage-processed
               High-Pressure Cylinder
-            </heading>
+            </h3>
             <div class="paper-meta">
               Lihua Sun, <strong>Rongxuan Zhou</strong>, Guiqin Li, Jianing Li, and Peter Mitrouchev
               <br>
@@ -603,7 +603,7 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>Automated Optical Inspection System for <em>Texas Instrument</em></heading>
+            <h3>Automated Optical Inspection System for <em>Texas Instrument</em></h3>
             <div class="paper-meta">
               Sole engineer on 4-CCD multi-angle visual inspection system for TI semiconductor CSE products.
               19 defect categories, 100% detection rate, &gt;85K units/day production throughput.
@@ -647,7 +647,7 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>EtherCAT Real-Time Manipulator Control</heading>
+            <h3>EtherCAT Real-Time Manipulator Control</h3>
             <div class="paper-meta">
               Developed EtherCAT master module with 1 kHz F/T sensor synchronization, reducing joint
               control cycle from 20 ms to 12 ms (40%). Deployed data-driven impedance controller on UR5e
@@ -690,7 +690,7 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>Fines Full-Stack Robotic Platform</heading>
+            <h3>Fines Full-Stack Robotic Platform</h3>
             <div class="paper-meta">
               Co-designed hardware architecture, embedded control framework (FineMote),
               and perception pipeline (FineVision) for steerable wheeled mobile robot at SJTU.
@@ -731,7 +731,7 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>Autonomous Driving Sim-to-Real Transfer</heading>
+            <h3>Autonomous Driving Sim-to-Real Transfer</h3>
             <div class="paper-meta">
               Built GAN-based CAN FD signal synthesizer (5&times; augmented data, +35% ECU test coverage)
               and gradient reversal domain adaptation (CARLA&rarr;NIO ET5) reducing lateral control error
@@ -771,7 +771,7 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>MuJoCo MCP Server &mdash; AI-Driven Robotics Simulation</heading>
+            <h3>MuJoCo MCP Server &mdash; AI-Driven Robotics Simulation</h3>
             <div class="paper-meta">
               65-tool server connecting MuJoCo physics simulation to AI assistants via natural language.
               Supports trajectory optimization (iLQR, MPPI), inverse kinematics, domain randomization,
@@ -810,7 +810,7 @@
         </div>
         <div class="col-md-8">
           <div class="paper-info">
-            <heading>LiDAR-Inertial SLAM Benchmarking</heading>
+            <h3>LiDAR-Inertial SLAM Benchmarking</h3>
             <div class="paper-meta">
               Benchmarked FAST-LIO vs. LIO-SAM on real-world driving datasets collected with
               Northeastern&rsquo;s NUance platform. Integrated FAST-LIO-LC for loop closure drift correction
@@ -871,14 +871,24 @@
   <script>
     $(window).on('load', function () {
       $('.fig-slideshow').each(function () {
-        var $slides = $(this).find('.slide');
+        var $container = $(this);
+        var $slides = $container.find('.slide');
         var idx = 0;
         $slides.eq(0).addClass('active');
-        setInterval(function () {
-          $slides.eq(idx).removeClass('active');
-          idx = (idx + 1) % $slides.length;
-          $slides.eq(idx).addClass('active');
-        }, 2200);
+        if ($slides.length < 2) return;
+        var timer = null;
+        function start() {
+          if (timer) return;
+          timer = setInterval(function () {
+            $slides.eq(idx).removeClass('active');
+            idx = (idx + 1) % $slides.length;
+            $slides.eq(idx).addClass('active');
+          }, 2200);
+        }
+        function stop() { clearInterval(timer); timer = null; }
+        start();
+        // Pause on hover (WCAG: user can stop auto-moving content)
+        $container.on('mouseenter', stop).on('mouseleave', start);
       });
     });
   </script>
