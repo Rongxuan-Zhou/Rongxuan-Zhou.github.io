@@ -895,14 +895,24 @@
 
   <!-- Abstract / BibTeX toggle -->
   <script>
-    function toggleAbs(id) {
-      var el = document.getElementById(id);
-      if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    // Reveal with a simultaneous slide-down (panel expands) + fade-in (text
+    // gradually appears). Hides by reversing both.
+    function revealToggle(id) {
+      var $el = $('#' + id);
+      if (!$el.length) return;
+      if ($el.is(':visible')) {
+        $el.stop(true, false)
+           .animate({ opacity: 0 }, { duration: 220, queue: false })
+           .slideUp(260);
+      } else {
+        $el.stop(true, false)
+           .css({ opacity: 0, display: 'none' })
+           .slideDown(360)
+           .animate({ opacity: 1 }, { duration: 360, queue: false });
+      }
     }
-    function toggleBib(id) {
-      var el = document.getElementById(id);
-      if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
-    }
+    function toggleAbs(id) { revealToggle(id); }
+    function toggleBib(id) { revealToggle(id); }
   </script>
 </body>
 </html>
