@@ -903,13 +903,13 @@
       if (!$el.length) return;
       if ($el.is(':visible')) {
         $el.stop(true, false)
-           .animate({ opacity: 0 }, { duration: 220, queue: false })
-           .slideUp(260);
+           .animate({ opacity: 0 }, { duration: 320, queue: false })
+           .slideUp(420);
       } else {
         $el.stop(true, false)
            .css({ opacity: 0, display: 'none' })
-           .slideDown(360)
-           .animate({ opacity: 1 }, { duration: 360, queue: false });
+           .slideDown(600)
+           .animate({ opacity: 1 }, { duration: 750, queue: false });
       }
     }
     function toggleAbs(id) { revealToggle(id); }
