@@ -409,7 +409,7 @@
         </div>
       </div>
 
-      <!-- Paper 1: SPINE -->
+      <!-- Paper 1: TOIF -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div class="deploying-thumb">
@@ -419,31 +419,43 @@
         <div class="col-md-8">
           <div class="paper-info">
             <h3>
-              Is Your Policy Actually Using Force? Why Concatenation Fails for
-              Contact-Force Integration in Sequential Robot Policies
+              Thinking on Its Feet: Terrain-Aware Hierarchical Control with
+              Proprioceptive Feedback for Humanoid Navigation
             </h3>
             <div class="paper-meta">
-              <strong>Rongxuan Zhou</strong> and Yang Ye
+              Yuhai Wang, Chenghao Wang, Xianyao Li, Zening Teng, Xiao Hu,
+              <strong>Rongxuan Zhou</strong>, Alireza Ramezani, Jing Du, and Yang Ye
+              <br>
+              IEEE-RAS International Conference on Humanoid Robots (Humanoids), 2026 (under review)
             </div>
             <div class="paper-links">
-              <a href="#" onclick="toggleAbs('abs1'); return false;">[Abstract]</a>
-              <a href="#" onclick="toggleAbs('proj_spine'); return false;">[Paper]</a>
+              <a href="#" onclick="toggleAbs('absToif'); return false;">[Abstract]</a>
+              <a href="#" onclick="toggleAbs('proj_toif'); return false;">[Paper]</a>
               <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Code]</a>
             </div>
-            <div class="abs-block" id="abs1">
+            <div class="abs-block" id="absToif">
               <p>
-                Multi-modal sequential policies fuse proprioception, vision, and auxiliary
-                modalities by concatenating them into a shared processing sequence &mdash; yet on
-                a contact-rich nut-threading task, na&iuml;ve raw-force concatenation reduces
-                success rate by 32 percentage points compared to ignoring force entirely. We
-                show that FiLM side-channel conditioning bypasses competitive normalization in
-                self-attention and LSTM gating layers, restoring force utility (+17 pp on
-                NutThread, non-overlapping 95% CIs). To diagnose suppression post-hoc without
-                retraining, we introduce R<sub>contact</sub>, a contact-sensitivity ratio via
-                Integrated Gradients that reliably distinguishes suppressed (&asymp;1&times;)
-                from functional (3.0&ndash;3.7&times;) architectures. Validated across 5
-                contact-rich tasks on two simulators (robosuite imitation learning + Isaac Lab
-                Factory reinforcement learning).
+                Vision-Language-Action (VLA) models have advanced robotic navigation by unifying
+                perception and planning, yet most systems operate in an open-loop manner,
+                generating plans without awareness of locomotion feasibility or the ability to
+                adapt when execution becomes unsafe. This disconnect leads to cascading failures
+                on challenging terrains and surfaces where pre-planned trajectories become
+                infeasible. We propose Thinking on Its Feet (TOIF), a three-tier hierarchical
+                control framework that closes the loop between low-level proprioceptive sensing
+                and high-level semantic path planning for terrain-aware humanoid robot
+                navigation. At the low level, an RL locomotion policy is augmented with a
+                multi-detector anomaly system that evaluates terrain-specific feasibility and
+                safety constraints using compact proprioceptive features. Detected anomalies are
+                accumulated through leaky integrators and translated into structured
+                natural-language feedback, enabling the high-level planner to replan over a
+                semantic scene graph. At the mid level, a VLA model generates velocity commands
+                that bridge high-level waypoints and low-level execution. We further introduce a
+                risk-aware velocity modulation mechanism that proactively reduces speed based on
+                real-time anomaly confidence. We validate TOIF in Isaac Lab simulation and on a
+                physical humanoid robot across a range of challenging terrains. Results
+                demonstrate that TOIF substantially improves navigation success rate and safety
+                over open-loop baselines, and that the proprioceptive anomaly detectors transfer
+                effectively to real-world deployment.
               </p>
             </div>
           </div>
