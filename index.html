@@ -462,7 +462,56 @@
         </div>
       </div>
 
-      <!-- Paper 2: TACS -->
+      <!-- Paper 2: Fold-Contact Affordances -->
+      <div class="row paper-row align-items-center mt-40">
+        <div class="col-md-4 paper-thumbnail">
+          <div class="deploying-thumb">
+            <span class="deploying-label">Deploying<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="paper-info">
+            <h3>
+              What Reveals Below: Fold-Contact Affordances for Cloth Unfolding
+            </h3>
+            <div class="paper-meta">
+              Xiao Hu, Lingfeng Sun, Yip Fun Yeung, Yuhai Wang,
+              <strong>Rongxuan Zhou</strong>, and Yang Ye
+              <br>
+              Conference on Robot Learning (CoRL), 2026 (under review)
+            </div>
+            <div class="paper-links">
+              <a href="#" onclick="toggleAbs('absFold'); return false;">[Abstract]</a>
+              <a href="#" onclick="toggleAbs('proj_fold'); return false;">[Paper]</a>
+              <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Code]</a>
+            </div>
+            <div class="abs-block" id="absFold">
+              <p>
+                Unfolding a crumpled garment from an overhead view is ambiguous: a flat cloth and
+                a stack of hidden folds can share the same silhouette. This paper studies a
+                transparent-table dual-arm setup in which the robot observes both a top
+                segmentation mask and a bottom contact mask. The main finding is that the bottom
+                view is most useful when converted into fold-contact affordances rather than used
+                as a generic second image. We derive fold residual, contact overlap, fold-contact
+                frontier, and silhouette-edge maps from the dual masks, use them in an attention
+                encoder, and further convert the frontier into a residual action prior. To reduce
+                hand tuning, we parameterize the prior's cell scorer as an online linear,
+                contextual-bandit-style update trained from reward, self-supervised unfolding
+                progress, or their mixture. Across the completed logs, raw dual-view pixels
+                improve long-horizon flatness over a top-only policy, affordance channels reduce
+                folded area by 82.2% relative to raw dual masks in a fast screen, and a
+                reward-bandit bottom-view scorer gives the best 21-run residual-prior ablation on
+                within-panel geometry score. The results support a precise conclusion: bottom view
+                helps cloth unfolding by exposing where upper folded layers meet grounded support,
+                and reward-trained scoring is the most effective tested way to turn that
+                information into manipulation targets.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper 3: TACS -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <video autoplay loop muted playsinline preload="metadata"
@@ -506,7 +555,7 @@
         </div>
       </div>
 
-      <!-- Paper 3: IROS 2025 -->
+      <!-- Paper 4: IROS 2025 -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div class="fig-slideshow" style="background:#fff; border-radius:10px; width:90%; aspect-ratio:16/10; overflow:hidden; position:relative; border:1px solid #eee;">
@@ -551,7 +600,7 @@
         </div>
       </div>
 
-      <!-- Paper 4: J. Phys. -->
+      <!-- Paper 5: J. Phys. -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div id="jphys-slideshow" class="fig-slideshow" style="background:#fff; border-radius:10px; width:90%; aspect-ratio:16/10; overflow:hidden; position:relative; border:1px solid #eee;">
