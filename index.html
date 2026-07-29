@@ -409,7 +409,113 @@
         </div>
       </div>
 
-      <!-- Paper 1: TOIF -->
+      <!-- Paper 1: ForceLeWM -->
+      <div class="row paper-row align-items-center mt-40">
+        <div class="col-md-4 paper-thumbnail">
+          <div class="deploying-thumb">
+            <span class="deploying-label">Deploying<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="paper-info">
+            <h3>
+              ForceLeWM: A Modality-Robust JEPA World Model with Gated Force Fusion
+            </h3>
+            <div class="paper-meta">
+              <strong>Rongxuan Zhou</strong>, Yuhai Wang, Xiao Hu, and Yang Ye
+              <br>
+              IEEE Robotics and Automation Letters (RA-L), 2026 (under review)
+            </div>
+            <div class="paper-links">
+              <a href="#" onclick="toggleAbs('absForceLewm'); return false;">[Abstract]</a>
+              <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Code]</a>
+            </div>
+            <div class="abs-block" id="absForceLewm">
+              <p>
+                Contact-rich robotic manipulation has long relied on vision-based policies, but at
+                the contact phase vision is often insufficient: the end-effector occludes the
+                workpiece, and under commodity sensing the last millimeter is hard to close from
+                vision alone. Force/torque sensing complements vision at exactly these moments, yet
+                it is often unavailable at deployment: training datasets come from sensor-equipped
+                platforms while target robots mount no force/torque sensor, and wrench estimates
+                drift out of calibration. Existing force-conditioned policies treat force as an
+                always-available input and do not address a missing sensor at test time. A natural
+                remedy is to add an encoded wrench into the latent state of a vision world model, so
+                that the model uses force when present and falls back to vision otherwise. In
+                practice this backfires: on our force-augmented PushT benchmark (PushT-FT), planning
+                success collapses from 41% to 15% once force is missing at test time. The collapse
+                persists across fusion operators and even when missing force dominates the training
+                data. What matters is the amplitude at which force is written into the shared latent.
+                To address this, we propose ForceLeWM, a JEPA world model that writes force into the
+                latent through a conservative per-dimension gate at a small learned amplitude,
+                trained with a warmup alignment loss for the from-scratch setting. ForceLeWM restores
+                planning to 35%, recovering about 75% of the lost planning success across 3 training
+                seeds. A train-consistent normalization audit shows the perception benefit of force
+                is task-specific: clear on FORGE peg insertion but not across other task families. We
+                further deploy one frozen simulation-trained checkpoint end-to-end on two real Franka
+                assembly tasks, gear meshing and peg insertion, with force supplied by a
+                proprioceptive wrench observer estimated from joint torques rather than a dedicated
+                force/torque sensor. When test-time force availability is uncertain, fusion should be
+                conservative by design: admit force at a small learned amplitude when present, and
+                degrade gracefully rather than collapse when absent.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper 2: Action-Compression Anisotropy -->
+      <div class="row paper-row align-items-center mt-40">
+        <div class="col-md-4 paper-thumbnail">
+          <div class="deploying-thumb">
+            <span class="deploying-label">Deploying<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="paper-info">
+            <h3>
+              Action-Compression Anisotropy in Latent World Models
+            </h3>
+            <div class="paper-meta">
+              <strong>Rongxuan Zhou</strong>, Yuhai Wang, Xiao Hu, and Yang Ye
+              <br>
+              arXiv preprint, 2026
+            </div>
+            <div class="paper-links">
+              <a href="#" onclick="toggleAbs('absAniso'); return false;">[Abstract]</a>
+              <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Code]</a>
+            </div>
+            <div class="abs-block" id="absAniso">
+              <p>
+                In latent world models of the joint-embedding family, the planner learns about
+                actions only through the model, and the model compresses each action block through a
+                linear bottleneck. The compression is uneven over action directions, and along some
+                directions it is total. We call the non-uniformity action-compression anisotropy.
+                Existing treatments of action insensitivity modify the training objective and leave
+                released, frozen models undiagnosed. This paper introduces an external protocol that
+                diagnoses them. It reads per-direction sensitivity from end-to-end Jacobians,
+                compares it with the response the environment exhibits along the same directions, and
+                measures how much control the planner exerts along each. On four released checkpoints
+                the protocol separates two kinds of compression. Compression learned by training is
+                faithful, with sensitivity matching environment response at correlation 0.87 to 0.97.
+                Compression imposed by the architecture is a blind spot, and one checkpoint is
+                exactly insensitive to fifteen directions carrying about 8% of the environment's
+                action response. The diagnosis supports a training-free intervention. Projecting
+                executed actions onto the model's visible subspace raises cube manipulation success
+                from 68.5% to 75.0%. The gain has a stated validity boundary. The projection helps
+                only where the planner has no measured control over the deleted directions, and it
+                costs up to 18.0 points where weak control survives. The state channel offers no such
+                option. Projecting the planning cost onto the reachable subspace loses 18.7 to 25.3
+                points, and no tested rank recovers its baseline. A restriction is safe when the
+                discarded component carries no planning signal, and that can be measured with
+                everything frozen.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper 3: TOIF -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div class="deploying-thumb">
@@ -462,7 +568,7 @@
         </div>
       </div>
 
-      <!-- Paper 2: Fold-Contact Affordances -->
+      <!-- Paper 4: Fold-Contact Affordances -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div class="deploying-thumb">
@@ -511,7 +617,7 @@
         </div>
       </div>
 
-      <!-- Paper 3: TACS -->
+      <!-- Paper 5: TACS -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <video autoplay loop muted playsinline preload="metadata"
@@ -526,7 +632,7 @@
               Policies via Tweedie-Adaptive Constrained Sampling
             </h3>
             <div class="paper-meta">
-              <strong>Rongxuan Zhou</strong> and Gilbert Yang Ye
+              <strong>Rongxuan Zhou</strong> and Yang Ye
               <br>
               IEEE Robotics and Automation Letters (RA-L)
             </div>
@@ -555,7 +661,7 @@
         </div>
       </div>
 
-      <!-- Paper 4: IROS 2025 -->
+      <!-- Paper 6: IROS 2025 -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div class="fig-slideshow" style="background:#fff; border-radius:10px; width:90%; aspect-ratio:16/10; overflow:hidden; position:relative; border:1px solid #eee;">
@@ -600,7 +706,7 @@
         </div>
       </div>
 
-      <!-- Paper 5: J. Phys. -->
+      <!-- Paper 7: J. Phys. -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
           <div id="jphys-slideshow" class="fig-slideshow" style="background:#fff; border-radius:10px; width:90%; aspect-ratio:16/10; overflow:hidden; position:relative; border:1px solid #eee;">
