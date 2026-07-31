@@ -25,6 +25,13 @@
   <link rel="stylesheet" href="css/owl.theme.default.min.css">
 
   <style>
+    /* ── Lenis smooth scroll ── */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+
     /* ── Publication / Research section ── */
     section.research .paper-row {
       margin-bottom: 24px;
@@ -1059,6 +1066,47 @@
   <script src="js/scrollIt.min.js"></script>
   <!-- Main -->
   <script src="js/main.js"></script>
+
+  <!-- Lenis (smooth scroll damping) -->
+  <script src="js/lenis.min.js"></script>
+  <script>
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || typeof Lenis === 'undefined') return;
+
+      var lenis = new Lenis({
+        lerp: 0.1,
+        wheelMultiplier: 1,
+        infinite: false,
+        gestureOrientation: 'vertical',
+        normalizeWheel: false,
+        smoothTouch: false
+      });
+      window.lenis = lenis;
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // scrollIt drives navigation via jQuery animate on html/body; let Lenis
+      // own those jumps instead so nav clicks stay smooth and don't fight it.
+      if (window.jQuery) {
+        var origAnimate = jQuery.fn.animate;
+        jQuery.fn.animate = function (props, opts) {
+          var isPageScroll = this.length &&
+            (this[0] === document.documentElement || this[0] === document.body ||
+             this[0] === window) && props && props.scrollTop !== undefined;
+          if (isPageScroll) {
+            lenis.scrollTo(parseFloat(props.scrollTop), { duration: 1.1 });
+            return this;
+          }
+          return origAnimate.apply(this, arguments);
+        };
+      }
+    })();
+  </script>
 
 
   <!-- Figure slideshow — each container runs independently -->
