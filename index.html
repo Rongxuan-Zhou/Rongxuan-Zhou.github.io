@@ -39,7 +39,16 @@
       border-bottom: 1px solid #e0e0e0;
     }
     section.research .paper-row.mt-40 {
-      margin-top: 14px !important;
+      margin-top: 12px !important;
+    }
+    /* thumbnail column: no theme margin, block-level child so the box
+       sits exactly between the two rules and shares the row centre line */
+    section.research .paper-row .paper-thumbnail {
+      margin-bottom: 0;
+    }
+    section.research .paper-row .paper-thumbnail > div,
+    section.research .paper-row .paper-thumbnail > video {
+      display: block;
     }
     section.research .paper-row:last-child {
       border-bottom: none;
@@ -635,8 +644,8 @@
       <!-- Paper 4: Fold-Contact Affordances -->
       <div class="row paper-row align-items-center mt-40">
         <div class="col-md-4 paper-thumbnail">
-          <div class="deploying-thumb">
-            <span class="deploying-label">Deploying<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+          <div class="fig-slideshow" style="background:#fff; border-radius:10px; width:90%; aspect-ratio:16/10; overflow:hidden; position:relative; border:1px solid #eee;">
+            <img class="slide" src="images/publications/fold_slide1.webp" alt="Fold-contact affordance pipeline">
           </div>
         </div>
         <div class="col-md-8">
@@ -652,7 +661,7 @@
             </div>
             <div class="paper-links">
               <a href="#" onclick="toggleAbs('absFold'); return false;">[Abstract]</a>
-              <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Paper]</a>
+              <a href="Research/Fold_Contact_Affordances_CoRL2026.pdf" target="_blank" rel="noopener">[Paper]</a>
               <a href="https://github.com/Rongxuan-Zhou" target="_blank" rel="noopener">[Code]</a>
             </div>
             <div class="abs-block" id="absFold">
