@@ -256,8 +256,27 @@
     .hero-letter.is-3d { color: transparent; }
     .hero-letter .hl { position: absolute; left: 0; top: 0; pointer-events: none; user-select: none; -webkit-user-select: none; }
     .hero-caption .cd-headline { margin-top: 0.9em; font-size: clamp(14px, 1.3vw, 20px); color: #333; white-space: normal; max-width: 32em; }
-    .hero-arrow { position: absolute; left: 0; right: 0; bottom: -28px; text-align: center; z-index: 2; }
-    .hero-arrow a { color: #999; }
+    .hero-arrow { position: absolute; left: 0; right: 0; top: 100%; bottom: auto; margin-top: 2px; line-height: 0; text-align: center; z-index: 2; }   /* just below the floor band */
+    /* scroll cue: a highlight runs down three chevrons, then they rest; a static light-to-dark gradient when motion is reduced */
+    .hero-scroll { display: inline-block; position: relative; width: 24px; height: 34px; padding: 5px 11px; box-sizing: content-box; }
+    .hero-scroll i {
+      position: absolute; left: 50%; width: 15px; height: 15px; margin-left: -8.5px; border-right: 2px solid #666; border-bottom: 2px solid #666;
+      opacity: .22; transform: rotate(45deg); animation: heroScrollCue 1.8s cubic-bezier(.4, 0, .6, 1) infinite;
+    }
+    .hero-scroll i:nth-child(1) { top: 2px; }
+    .hero-scroll i:nth-child(2) { top: 12px; animation-delay: .18s; }
+    .hero-scroll i:nth-child(3) { top: 22px; animation-delay: .36s; }
+    .hero-scroll:hover i, .hero-scroll:focus-visible i { border-color: #222; }
+    @keyframes heroScrollCue {
+      0% { opacity: .22; transform: translateY(0) rotate(45deg); }
+      25% { opacity: 1; transform: translateY(1.5px) rotate(45deg); }
+      55% { opacity: .22; transform: translateY(3px) rotate(45deg); }
+      100% { opacity: .22; transform: translateY(0) rotate(45deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-scroll i { animation: none; }
+      .hero-scroll i:nth-child(1) { opacity: .3; } .hero-scroll i:nth-child(2) { opacity: .55; } .hero-scroll i:nth-child(3) { opacity: .85; }
+    }
     @media (max-width: 767px) {
       /* on phones the hero is sized to its content instead of the viewport */
       section.hero { min-height: 0; height: auto !important; padding: 72px 16px 64px; }   /* main.js pins #home to the window height */
@@ -325,7 +344,7 @@
       <canvas id="hero-front" aria-hidden="true"></canvas>
       <canvas id="hero-cables" aria-hidden="true"></canvas>
       <div class="arrow hero-arrow">
-        <a class="fa fa-chevron-down fa-2x" href="#" data-scroll-nav="1" aria-label="Scroll to About"></a>
+        <a class="hero-scroll" href="#" data-scroll-nav="1" aria-label="Scroll to About"><i></i><i></i><i></i></a>
       </div>
     </div>
     <canvas id="hero-mist" aria-hidden="true"></canvas>
