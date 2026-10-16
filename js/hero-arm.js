@@ -2,7 +2,8 @@
    as a fine halftone, one dot per cell.
    Story: the "R" of the headline starts mirrored at its home. The arm grasps it from above, flips it back about the
    vertical axis, the R slips at the end of the flip and falls (rigid-body drop simulated offline in MuJoCo, replayed
-   here), the arm reacts, grabs it on the floor, seats it at home and lets go, then dissolves toward the name. Plays once.
+   here), the arm reacts, grabs it on the floor, seats it at home and lets go, then turns to mist that drifts past the name
+   and off the page. Plays once. The trail marks the TCP (midway between the fingertips).
    Video frames hold two layers stacked vertically: the scene, and the gripper parts that pass in front of the R (drawn
    above the text). Pixel coding: grey = surface luminance (<= 240), orange = Fin Ray fingers, green = base LED ring,
    pure white = nothing. The R itself is DOM text: a CSS 3D block of stacked glyph layers, so at home it is a flat
@@ -40,14 +41,14 @@
     }
     return (stamps[key] = { n: n, o: o, a: a });
   }
-  function Layer(cv, c2d) { this.cv = cv; this.c2d = c2d; this.img = null; }
+  function Layer(cv, c2d, dpr) { this.cv = cv; this.c2d = c2d; this.img = null; this.dpr = dpr || null; }
   Layer.prototype.reset = function () {
     if (!this.img || this.img.width !== this.cv.width || this.img.height !== this.cv.height) this.img = this.c2d.createImageData(this.cv.width, this.cv.height);
     else this.img.data.fill(0);
   };
   Layer.prototype.plot = function (x, y, r, col, alpha) {      // x, y, r in css px
-    var d = this.img.data, bw = this.img.width, bh = this.img.height;
-    x *= DPR; y *= DPR; r *= DPR;
+    var d = this.img.data, bw = this.img.width, bh = this.img.height, s0 = this.dpr || DPR;
+    x *= s0; y *= s0; r *= s0;
     if (r < 0.15) return;
     var ix = Math.floor(x), iy = Math.floor(y), s = stamp(r, Math.floor((x - ix) * 4), Math.floor((y - iy) * 4));
     var x0 = ix - s.o, y0 = iy - s.o, A = 255 * (alpha === undefined ? 1 : alpha);
@@ -199,8 +200,10 @@
       }
     cctx.fill();
   }
-  function drawFrame(frame, now) {
-    var px = readFrame(), breath = 0.5 + 0.5 * Math.sin(now * 2 * Math.PI / 2.6);
+  var lastPx = null, shownFrame = -1, clock0 = 0;
+  function drawFrame(frame, now, reuse) {                    // reuse: redraw the last decoded frame (LED breathing, resize)
+    var px = reuse && lastPx ? lastPx : (lastPx = readFrame()), breath = 0.5 + 0.5 * Math.sin(now * 2 * Math.PI / 2.6);
+    shownFrame = frame;
     if (!cableCols) { cableCols = findCables(px); drawCables(1); }
     var dots = []; dotsFrom(px, 0, dots, breath);
     base.reset(); drawFloor(base);
@@ -224,39 +227,77 @@
     lastDots = dots;
   }
 
-  // ---------- dissolve: every dot drifts toward the name as mist and fades ----------
+  // ---------- dissolve: the arm turns to smoke that streams toward the name and on past the edge of the page ----------
+  // Particles live on #hero-mist, which covers the whole first screen (below the text), so they are not clipped at
+  // the arm canvas. They start exactly where the dots were, leave front first, pick up speed like smoke in a draught,
+  // spread and thin out, and are dropped once they cross the section's edge.
+  var mist = document.getElementById('hero-mist');
+  if (!mist) {                                               // an older cached page without the mist canvas
+    mist = document.createElement('canvas'); mist.id = 'hero-mist'; mist.setAttribute('aria-hidden', 'true');
+    mist.style.cssText = 'position:absolute;left:0;top:0;z-index:1;pointer-events:none;display:none'; section.appendChild(mist);
+  }
+  var mistLayer = new Layer(mist, mist.getContext('2d'), 1), MW = 0, MH = 0;
   var particles = null, d0 = 0;
   function mulberry(a) { return function () { a |= 0; a = a + 0x6d2b79f5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function startDissolve(now) {
-    var P = [], nb = nameBox, rnd = mulberry(7);
-    for (var k = 0; k < lastDots.length; k += 5) {
-      var x = lastDots[k], y = lastDots[k + 1];
-      var tx = nb.x0 + rnd() * (nb.x1 - nb.x0), ty = nb.y0 + rnd() * (nb.y1 - nb.y0);
-      var life = 0.62 + 0.3 * rnd(), reach = 0.42 + 0.28 * rnd();
-      var delay = 0.24 * Math.max(0, Math.min(1, (nb.x0 - x) / Math.max(1, nb.x0)));
-      P.push({ x: x, y: y, r: lastDots[k + 2], c: lastDots[k + 3], a: lastDots[k + 4], vx: (tx - x) * reach / life, vy: (ty - y) * reach / life,
-               life: life, delay: delay, ph: rnd() * 6.283, sw: (0.6 + rnd()) * pitch * 6 });
+    var sr = section.getBoundingClientRect(), cr = canvas.getBoundingClientRect();
+    var ox = cr.left - sr.left, oy = cr.top - sr.top, rnd = mulberry(7);
+    MW = Math.round(sr.width); MH = Math.round(sr.height);
+    mistLayer.dpr = DPR;                                     // same resolution as the arm canvas: the handoff is invisible
+    mist.width = Math.round(MW * mistLayer.dpr); mist.height = Math.round(MH * mistLayer.dpr);
+    mist.style.width = MW + 'px'; mist.style.height = MH + 'px'; mist.style.display = 'block';
+    // every dot of the last frame, plus the cable continuation below the canvas, in section coordinates
+    var src = lastDots.slice();
+    if (cableCols && ccan.height > 1) {
+      var rows = Math.ceil(ccan.height / DPR / pitch);
+      for (var c = 0; c < cableCols.length; c++) for (var ci = cableCols[c][0]; ci <= cableCols[c][1]; ci++)
+        for (var cj = 0; cj < rows; cj++) src.push((ci + 0.5) * pitch, H + (cj + 0.5) * pitch, pitch / 2 * 0.86, 0, 1);
     }
+    var cx = 0, cy = 0, n = src.length / 5;
+    for (var k = 0; k < src.length; k += 5) { cx += src[k]; cy += src[k + 1]; }
+    cx = cx / n + ox; cy = cy / n + oy;
+    var nx = (nameBox.x0 + nameBox.x1) / 2 + ox, ny = (nameBox.y0 + nameBox.y1) / 2 + oy;
+    var dx = nx - cx, dy = ny - cy, dl = Math.hypot(dx, dy) || 1; dx /= dl; dy /= dl;
+    var S = MW / 1440, P = [], lo = Infinity, hi = -Infinity;
+    for (var q = 0; q < src.length; q += 5) {
+      var x = src[q] + ox, y = src[q + 1] + oy;
+      var tx = nameBox.x0 + ox + rnd() * (nameBox.x1 - nameBox.x0), ty = nameBox.y0 + oy + rnd() * (nameBox.y1 - nameBox.y0);
+      var ax = tx - x, ay = ty - y, al = Math.hypot(ax, ay) || 1;
+      var ux = dx + 0.35 * ax / al, uy = dy + 0.35 * ay / al, ang = (rnd() - 0.5) * 0.5;     // main draught, a pull toward the name, some spread
+      var ca = Math.cos(ang), sa = Math.sin(ang), vx = ux * ca - uy * sa, vy = ux * sa + uy * ca, vl = Math.hypot(vx, vy) || 1;
+      vx /= vl; vy /= vl;
+      var proj = (x - cx) * dx + (y - cy) * dy; lo = Math.min(lo, proj); hi = Math.max(hi, proj);
+      // 40 % drift all the way out of the page as a faint stream; the rest evaporate within the first stretch
+      P.push({ x: x, y: y, r: src[q + 2], c: src[q + 3], a: src[q + 4], vx: vx, vy: vy, proj: proj,
+               v0: (70 + 50 * rnd()) * S, acc: (110 + 90 * rnd()) * S, sw: (5 + 9 * rnd()) * S * 3, om: 1.2 + 1.6 * rnd(), ph: rnd() * 6.283,
+               rise: (4 + 10 * rnd()) * S, keep: rnd() < 0.4, ev: (0.1 + 0.25 * rnd()) * MW, delay: 0 });
+    }
+    for (var p2 = 0; p2 < P.length; p2++) P[p2].delay = 0.6 * (hi - P[p2].proj) / Math.max(1, hi - lo) + 0.12 * rnd();    // the front leaves first
     particles = P; d0 = now;
-    ccan.style.transition = 'opacity 0.5s ease'; ccan.style.opacity = '0';
-    fore.reset(); fore.flush();
+    base.reset(); base.flush(); fore.reset(); fore.flush();
+    ccan.style.display = 'none';
   }
   function stepDissolve(now) {
     var t = now - d0, alive = 0;
-    floorAlpha = Math.max(0, 1 - t / 0.55);
-    base.reset(); drawFloor(base);
+    floorAlpha = Math.max(0, 1 - t / 1.4);
+    base.reset(); drawFloor(base); base.flush();
+    mistLayer.reset();
     for (var k = 0; k < particles.length; k++) {
-      var p = particles[k], tau = t - p.delay;
-      if (tau < 0) { base.plot(p.x, p.y, p.r, COLS[p.c], p.a); alive++; continue; }
-      var u = tau / p.life; if (u >= 1) continue;
+      var p = particles[k];
+      if (p.dead) continue;
+      var tau = t - p.delay;
+      if (tau <= 0) { mistLayer.plot(p.x, p.y, p.r, COLS[p.c], p.a); alive++; continue; }
+      var s = p.v0 * tau + 0.5 * p.acc * tau * tau;                            // distance travelled along its heading
+      var wob = p.sw * Math.sin(p.om * tau + p.ph) * (1 - Math.exp(-1.5 * tau));
+      var x = p.x + p.vx * s - p.vy * wob, y = p.y + p.vy * s + p.vx * wob - p.rise * tau * tau;
+      if (x > MW + 6 || x < -6 || y < -6 || y > MH + 6) { p.dead = true; continue; }
+      var fade = p.keep ? 0.3 + 0.7 * Math.exp(-s / (0.22 * MW)) : 1 - s / p.ev;
+      if (fade <= 0.004) { p.dead = true; continue; }
       alive++;
-      var e = 1 - Math.pow(1 - u, 2.2);
-      var x = p.x + p.vx * p.life * e + Math.sin(p.ph + 7 * tau) * p.sw * u * 0.25;
-      var y = p.y + p.vy * p.life * e + Math.cos(p.ph + 5 * tau) * p.sw * u * 0.25 - 10 * u * pitch;
-      base.plot(x, y, p.r * (1 + 0.9 * u), COLS[p.c], p.a * Math.pow(1 - u, 2));
+      mistLayer.plot(x, y, p.r * (1 + 0.25 * Math.min(1, s / (0.22 * MW))), COLS[p.c], p.a * fade);
     }
-    base.flush();
-    return alive > 0 || floorAlpha > 0;
+    mistLayer.flush();
+    return (alive > 0 || floorAlpha > 0) && t < 12;
   }
 
   // ---------- run ----------
@@ -265,20 +306,40 @@
     var once = function () { drawFrame(0, 0); canvas.classList.add('is-ready'); };
     if (video.readyState >= 2) once(); else video.addEventListener('loadeddata', once, { once: true });
   }
+  // The frame index must be the frame actually on screen: currentTime runs up to a frame behind the decoded picture, which
+  // would put the TCP trail and the carried R a frame behind the gripper. requestVideoFrameCallback gives the presented
+  // frame's own timestamp, and the picture drawn inside the callback is that frame. While the R is carried it is posed from
+  // the same frame, so it stays locked between the fingers; when free (home, falling, seated) it follows the smooth clock.
   function run() {
-    var t0 = performance.now(), lastFrame = -1, dissolving = false;
+    var lastFrame = -1, dissolving = false, vf = -1, vfAt = -1, useVFC = typeof video.requestVideoFrameCallback === 'function';
+    clock0 = performance.now();
+    function onVideoFrame(nowMs, md) {
+      if (dissolving) return;
+      vf = Math.max(0, Math.min(N - 1, Math.round(md.mediaTime * FPS))); vfAt = nowMs;
+      drawFrame(vf, (nowMs - clock0) / 1000); lastFrame = vf;
+      video.requestVideoFrameCallback(onVideoFrame);
+    }
+    if (useVFC) video.requestVideoFrameCallback(onVideoFrame);
     function loop(nowMs) {
-      var now = (nowMs - t0) / 1000;
+      var now = (nowMs - clock0) / 1000;
       if (dissolving) {
         if (stepDissolve(now)) requestAnimationFrame(loop);
-        else { base.reset(); base.flush(); video.pause(); }
+        else { base.reset(); base.flush(); mistLayer.reset(); mistLayer.flush(); mist.style.display = 'none'; video.pause(); }
         return;
       }
       requestAnimationFrame(loop);
       if (video.readyState < 2) return;
-      var vt = video.currentTime, f = Math.min(N - 1, Math.floor(vt * FPS + 1e-3));
-      setLetter(vt);
-      if (f !== lastFrame || meta.frames[f].L.st === 'home') { drawFrame(f, now); lastFrame = f; }
+      var vt = video.currentTime;
+      if (useVFC) {
+        if (vf < 0) return;                                  // no frame presented yet
+        var st = meta.frames[vf].L.st;
+        setLetter(st === 'held' || st === 'held2' ? (vf + 0.001) / FPS : vt);
+        if (st === 'home' && nowMs !== vfAt) drawFrame(vf, now, true);   // LED breathing between video frames
+      } else {
+        var f = Math.min(N - 1, Math.floor(vt * FPS + 1e-3));
+        setLetter(vt);
+        if (f !== lastFrame || meta.frames[f].L.st === 'home') { drawFrame(f, now); lastFrame = f; }
+      }
       if (!canvas.classList.contains('is-ready')) canvas.classList.add('is-ready');
       if (vt >= meta.t_release + 0.08 || video.ended) {
         letter.style.transform = 'none'; dissolving = true; startDissolve(now);
@@ -297,7 +358,10 @@
   }).then(function () {
     if (!reduce) letter.style.transform = 'rotateY(180deg)';
     layout();
-    window.addEventListener('resize', function () { if (meta && layout() && video.readyState >= 2 && !particles) drawFrame(Math.min(N - 1, Math.floor(video.currentTime * FPS)), 0); });
+    window.addEventListener('resize', function () {
+      if (meta && layout() && video.readyState >= 2 && !particles)
+        drawFrame(shownFrame >= 0 ? shownFrame : Math.min(N - 1, Math.floor(video.currentTime * FPS)), (performance.now() - clock0) / 1000, true);
+    });
     if (reduce) { showStill(); return; }
     var p = video.play();
     if (p && p.then) p.then(run, showStill); else run();

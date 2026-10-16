@@ -239,6 +239,7 @@
     #hero-arm.is-ready { opacity: 1; }
     #hero-front { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; }
     #hero-cables { position: absolute; left: 0; top: 100%; z-index: 0; pointer-events: none; }
+    #hero-mist { position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none; display: none; }   /* the dissolve: covers the whole first screen, below the text */
     .hero-caption {
       position: absolute; left: 58%; top: 45%; z-index: 2;
       will-change: transform; white-space: nowrap; pointer-events: none;
@@ -327,6 +328,7 @@
         <a class="fa fa-chevron-down fa-2x" href="#" data-scroll-nav="1" aria-label="Scroll to About"></a>
       </div>
     </div>
+    <canvas id="hero-mist" aria-hidden="true"></canvas>
   </section>
 
   <!-- ══ About ══ -->

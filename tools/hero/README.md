@@ -5,7 +5,8 @@ The homepage hero is a Franka FR3 with the UMI robot-side gripper, rendered offl
 
 Story: the "R" of the headline starts mirrored at its home. The arm grasps it from above, pulls it off the glass, flips it
 180 degrees about the vertical axis, the R slips at the end of the flip and falls, the arm reacts after 120 ms, tracks it,
-grabs it on the floor, seats it at home and lets go; the page then dissolves the arm toward the name. Plays once.
+grabs it on the floor, seats it at home and lets go; the page then turns the arm into mist that drifts past the name and off
+the page. Plays once.
 
 Requirements: Python with `mujoco`, `numpy`, `Pillow`; `ffmpeg`; the menagerie `fr3.xml` and its `assets/` next to the scripts;
 the page font for the R: `raleway800.ttf` (Raleway ExtraBold, from the Google Fonts CSS for `Raleway:800`).
@@ -23,6 +24,8 @@ the page font for the R: `raleway800.ttf` (Raleway ExtraBold, from the Google Fo
 6. `export.py` renders every frame with `halftone.py` (2x2 supersampled, 560x350 cells) twice: the scene, and the gripper parts
    in front of the letter during the flip. The two are stacked vertically and encoded as `hero.mp4` / `hero.webm` with
    `hero.json`. Pixel coding: grey = luminance (<= 240), orange = Fin Ray fingers, green = LED ring, pure white = nothing.
+   `hero.json` also holds the per-frame trail point: the TCP (`umi_tip`, midway between the fingertips), projected on the
+   same render grid as the video. `python export.py --meta-only` rewrites only `hero.json` (no rendering).
    Copy the three files to `images/hero/`.
 
 `js/hero-arm.js` decodes the hidden `#hero-video`, stamps the dots into `#hero-arm` (below the text) and `#hero-front`

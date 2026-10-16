@@ -3,7 +3,7 @@ flips it 180 deg about the vertical, the R slips at the end of the flip and fall
 after 120 ms, tracks it down, grasps it on the floor, carries it home, seats it on the glass and lets go.
 Joint trajectory: PCHIP through IK knots (continuous velocity, no overshoot). Output: per-frame robot state and letter pose."""
 import numpy as np, json
-from ikcore import sc, m, d, ik, target_rot, cell_to_world, world_to_cell, lo, hi
+from ikcore import sc, m, d, ik, target_rot, cell_to_world, lo, hi
 from fall import drop
 FPS = 30
 g = json.load(open("glyph.json")); W_R, H_R = g["width"], g["height"]; T_R = 0.020
@@ -92,7 +92,7 @@ for i, tt in enumerate(tq):
         c = tip + R @ off2; L = dict(x=c[0], z=c[2], y=c[1], th=0.0, yaw=0.0, st="held2")
     else:
         L = dict(x=HOME[0], z=HOME[2], y=0.0, th=0.0, yaw=0.0, st="seated")
-    frames.append({"q": Qs[i].tolist(), "f": float(Fs[i]), "tip": world_to_cell(tip).round(2).tolist(), "letter": L})
+    frames.append({"q": Qs[i].tolist(), "f": float(Fs[i]), "letter": L})            # the TCP trail point is projected in export.py
 print("frames", len(frames), "duration %.2f s" % tq[-1], "| drop at %.2f s, regrasp %.2f s, release %.2f s" % (T_DROP, T_HELD2, T_REL))
 print("seat error vs home: %.2f mm" % (1e3 * np.linalg.norm(np.array([frames[-1]["letter"]["x"], frames[-1]["letter"]["z"]]) - HOME[[0, 2]])))
 json.dump({"fps": FPS, "t_drop": T_DROP, "t_held2": T_HELD2, "t_release": T_REL, "home": list(HOME_C),
