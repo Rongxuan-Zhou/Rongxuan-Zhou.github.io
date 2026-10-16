@@ -15,7 +15,7 @@ the page font for the R: `raleway800.ttf` (Raleway ExtraBold, from the Google Fo
    convex parts (stem, bowl, leg) for contact. Writes `glyph.json`.
 2. `build_scene.py` adds the UMI gripper as deployed on Franka (after the UMI teaser photo) as one connected assembly: flange
    adapter, mount plate, gripper body, jaw guide, jaws, white finger mounts, orange Fin Ray fingers (inner wall, slanted back
-   wall, base, tip cap, 9 ribs) with black pads, GoPro with lens and side mirrors; plus the base LED ring at the link0/link1
+   wall, base, tip cap, 9 ribs) with black pads, GoPro with lens; plus the base LED ring at the link0/link1
    seam and two cables. Writes `fr3_umi.xml`. `gripper_check.py` renders the gripper at 0.6 mm to look for gaps.
 3. `ikcore.py`: damped-least-squares IK on the fingertip site with a full orientation target (in-plane tilt `phi`, yaw `psi`).
 4. `fall.py`: the R's drop in MuJoCo, constrained to a plane parallel to the glass; acrylic, restitution about 0.4.

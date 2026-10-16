@@ -1,8 +1,8 @@
 """FR3 + the UMI robot-side gripper as deployed on Franka (after the UMI teaser photo): flange adapter, mount plate,
 parallel-gripper body, front jaw guide, two jaws with white 3D-printed finger mounts, orange Fin Ray fingers
-(straight inner wall, slanted back wall, base plate, tip cap, 9 ribs) with black fingertip pads, and a GoPro with lens
-and side mirrors on the camera-facing side. Every part touches its neighbour. Gripper frame: z = approach, y = closing
-axis, x = away from the viewer. Plus the base LED ring at the link0/link1 seam and two cables leaving the base."""
+(straight inner wall, slanted back wall, base plate, tip cap, 9 ribs) with black fingertip pads, and a GoPro with its lens
+on the camera-facing side; the GoPro's side mirrors are left out (at this scale they read as two stray plates). Every part
+touches its neighbour. Gripper frame: z = approach, y = closing axis, x = away from the viewer. Plus the base LED ring at the link0/link1 seam and two cables leaving the base."""
 import mujoco, numpy as np
 spec = mujoco.MjSpec.from_file("fr3.xml")
 site = next(s for s in spec.sites if s.name == "attachment_site")
@@ -28,9 +28,6 @@ box(g, "umi_guide", [0, 0, 0.096], [0.020, 0.070, 0.004], metal)                
 # GoPro on the viewer side (-x), touching the gripper body
 box(g, "umi_gopro", [-0.043, 0, 0.056], [0.017, 0.0355, 0.026], black)             # x -0.060..-0.026, z 0.030-0.082
 cyl(g, "umi_lens", [-0.043, 0, 0.086], 0.011, 0.004, glass)                         # z 0.082-0.090
-box(g, "umi_mirror_holder", [-0.043, 0, 0.093], [0.010, 0.027, 0.003], dark)        # z 0.090-0.096
-for i, sg in ((1, 1), (2, -1)):
-    box(g, f"umi_mirror{i}", [-0.043, sg*0.021, 0.104], [0.009, 0.0012, 0.009], mirror, qx(sg*0.6))
 # fingers: body origin on the inner (gripping) plane at full open; positive slide closes
 Y_OPEN, Z0, Z1 = 0.045, 0.134, 0.242
 for i, sg, tag in ((1, -1, "a"), (2, 1, "b")):
