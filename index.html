@@ -242,7 +242,7 @@
     }
     .hero-caption h1 {
       margin: 0; line-height: 1; letter-spacing: -0.01em;
-      font-size: clamp(28px, 4.7vw, 68px); font-weight: 800; color: #111;
+      font-size: clamp(26px, 4.2vw, 60px); font-weight: 800; color: #111;
     }
     .hero-letter { display: inline-block; transform-origin: 50% 50%; will-change: transform; }
     .hero-caption .cd-headline { margin-top: 0.9em; font-size: clamp(14px, 1.3vw, 20px); color: #333; white-space: normal; max-width: 32em; }
@@ -294,6 +294,10 @@
   <section id="home" class="banner hero" data-scroll-index="0" style="display:none">
     <div class="hero-wrap">
       <canvas id="hero-arm" width="1600" height="1000" aria-label="A Franka arm with a UMI gripper picking up the letter R and placing it into the name"></canvas>
+      <video id="hero-video" muted playsinline loop preload="auto" aria-hidden="true" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;">
+        <source src="images/hero/hero.mp4" type="video/mp4">
+        <source src="images/hero/hero.webm" type="video/webm">
+      </video>
       <div class="hero-caption" id="hero-caption">
         <h1><span class="hero-letter" id="hero-R">R</span>ongxuan Zhou</h1>
         <p class="cd-headline clip">
