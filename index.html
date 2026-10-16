@@ -219,6 +219,39 @@
       margin-top: 2px;
     }
 
+    /* ── Hero: halftone Franka + letter R ── */
+    section.hero {
+      background: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 90px 16px 40px;
+    }
+    section.hero:after { display: none; }
+    .hero-wrap {
+      position: relative;
+      width: min(100%, calc((100vh - 150px) * 1.6));
+      margin: 0 auto;
+    }
+    #hero-arm { display: block; width: 100%; opacity: 0; transition: opacity 0.6s ease; }
+    #hero-arm.is-ready { opacity: 1; }
+    .hero-caption {
+      position: absolute; left: 0; top: 0;
+      will-change: transform; white-space: nowrap; pointer-events: none;
+    }
+    .hero-caption h1 {
+      margin: 0; line-height: 1; letter-spacing: -0.01em;
+      font-size: clamp(28px, 4.7vw, 68px); font-weight: 800; color: #111;
+    }
+    .hero-letter { display: inline-block; transform-origin: 50% 50%; will-change: transform; }
+    .hero-caption .cd-headline { margin-top: 0.9em; font-size: clamp(14px, 1.3vw, 20px); color: #333; white-space: normal; max-width: 32em; }
+    .hero-arrow { position: absolute; left: 0; right: 0; bottom: -28px; text-align: center; }
+    .hero-arrow a { color: #999; }
+    @media (max-width: 767px) {
+      section.hero { padding-top: 70px; }
+      .hero-caption .cd-headline { display: block; max-width: 20em; }
+    }
     /* ── Abstract/BibTeX blocks ── */
     .abs-block, .bib-block { display: none; margin-top: 10px; }
     .abs-block p { font-size: 15px; color: #555; font-style: normal; line-height: 1.5; }
@@ -258,14 +291,12 @@
   </nav>
 
   <!-- ══ Home / Banner ══ -->
-  <section id="home" class="banner"
-           style="background-image: url('images/background/home-banner-bg.webp'); display:none"
-           data-stellar-background-ratio=".7"
-           data-scroll-index="0">
-    <div class="container">
-      <div class="banner-caption">
-        <h1>Rongxuan Zhou</h1>
-        <p class="cd-headline clip mt-30">
+  <section id="home" class="banner hero" data-scroll-index="0" style="display:none">
+    <div class="hero-wrap">
+      <canvas id="hero-arm" width="1600" height="1000" aria-label="A Franka arm with a UMI gripper picking up the letter R and placing it into the name"></canvas>
+      <div class="hero-caption" id="hero-caption">
+        <h1><span class="hero-letter" id="hero-R">R</span>ongxuan Zhou</h1>
+        <p class="cd-headline clip">
           <span>Robotics &mdash; from hardware to learning algorithms.</span><br>
           <span class="cd-words-wrapper">
             <b class="is-visible">safety-constrained robot learning.</b>
@@ -275,7 +306,7 @@
           </span>
         </p>
       </div>
-      <div class="arrow">
+      <div class="arrow hero-arrow">
         <a class="fa fa-chevron-down fa-2x" href="#" data-scroll-nav="1" aria-label="Scroll to About"></a>
       </div>
     </div>
@@ -1109,6 +1140,8 @@
   <script src="js/jquery.stellar.js"></script>
   <!-- Animated Headline -->
   <script src="js/animated.headline.js"></script>
+  <!-- Hero arm -->
+  <script src="js/hero-arm.js"></script>
   <!-- Owl Carousel -->
   <script src="js/owl.carousel.min.js"></script>
   <!-- ScrollIt -->
