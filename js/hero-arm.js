@@ -200,10 +200,10 @@
       }
     cctx.fill();
   }
-  var lastPx = null, shownFrame = -1, clock0 = 0, TRAIL_LIFE = 3.0;
+  var lastPx = null, shownFrame = -1, clock0 = 0, TRAIL_LIFE = 1.0;
   // The TCP is sampled once per video frame (30 fps), so a fast move leaves cells-wide gaps. Fill the segment from the
   // last trail point at half-cell steps with interpolated times: every grid cell the TCP crosses gets its own dot.
-  // The trail is a pale blue (alpha 0.6 at the head) that fades over TRAIL_LIFE seconds.
+  // The trail is a pale blue comet tail (alpha 0.6 at the head) that fades as it is drawn, gone after TRAIL_LIFE seconds.
   function pushTrail(tp, now) {
     var last = trail[trail.length - 1];
     if (!last) { trail.push([tp[0], tp[1], now]); return; }
@@ -229,7 +229,7 @@
       var ci = Math.floor(trail[t][0]), cj = Math.floor(trail[t][1]), key = ci * 4096 + cj;
       if (seen[key]) continue;
       seen[key] = 1;
-      var f = 1 - age * age * (3 - 2 * age);                      // smoothstep: eases out at both ends, no pop
+      var f = (1 - age) * (1 - age);                              // fades from the moment it is drawn, eases out to zero
       var tx = (ci + 0.5) * pitch, ty = (cj + 0.5) * pitch, tr = pitch / 2 * 0.9 * (0.6 + 0.4 * f), ta = 0.6 * f;
       base.plot(tx, ty, tr, ACCENT, ta); dots.push(tx, ty, tr, 3, ta);
     }
