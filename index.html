@@ -227,6 +227,7 @@
       align-items: center;
       justify-content: center;
       padding: 90px 16px 40px;
+      overflow: hidden;
     }
     section.hero:after { display: none; }
     .hero-wrap {
@@ -234,29 +235,33 @@
       width: min(100%, calc((100vh - 150px) * 1.6));
       margin: 0 auto;
     }
-    #hero-arm { display: block; width: 100%; opacity: 0; transition: opacity 0.6s ease; }
+    #hero-arm { display: block; width: 100%; position: relative; z-index: 1; opacity: 0; transition: opacity 0.6s ease; }
     #hero-arm.is-ready { opacity: 1; }
+    #hero-front { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; }
+    #hero-cables { position: absolute; left: 0; top: 100%; z-index: 0; pointer-events: none; }
     .hero-caption {
-      position: absolute; left: 0; top: 0;
+      position: absolute; left: 58%; top: 45%; z-index: 2;
       will-change: transform; white-space: nowrap; pointer-events: none;
+      opacity: 0; animation: heroCaptionFallback 0.4s ease 2.5s forwards;
     }
+    .hero-caption.is-placed { opacity: 1; animation: none; transition: opacity 0.35s ease; }
+    @keyframes heroCaptionFallback { to { opacity: 1; } }
     .hero-caption h1 {
       margin: 0; line-height: 1; letter-spacing: -0.01em;
       font-size: clamp(26px, 4.2vw, 60px); font-weight: 800; color: #111;
     }
-    .hero-letter {
-      display: inline-block; transform-origin: 50% 50%; will-change: transform; position: relative; z-index: 2;
-      /* a solid block: the glyph extruded toward the lower left */
-      text-shadow: -0.5px 0.5px 0 #4a4a4a, -1px 1px 0 #474747, -1.5px 1.5px 0 #444, -2px 2px 0 #414141, -2.5px 2.5px 0 #3e3e3e,
-                   -3px 3px 0 #3b3b3b, -3.5px 3.5px 0 #383838, -4px 4px 0 #353535, -4.5px 4.5px 0 #323232, -5px 5px 0 #2f2f2f,
-                   -5.5px 5.5px 0 #2c2c2c, -6px 6px 0 #292929, -6.5px 6.5px 0 #262626, -7px 7px 0 #232323;
-    }
+    /* the R is a solid block: stacked glyph layers in 3D; at home they line up into a flat silhouette */
+    .hero-letter { display: inline-block; position: relative; transform-style: preserve-3d; will-change: transform; }
+    .hero-letter.is-3d { color: transparent; }
+    .hero-letter .hl { position: absolute; left: 0; top: 0; pointer-events: none; user-select: none; -webkit-user-select: none; }
     .hero-caption .cd-headline { margin-top: 0.9em; font-size: clamp(14px, 1.3vw, 20px); color: #333; white-space: normal; max-width: 32em; }
-    .hero-arrow { position: absolute; left: 0; right: 0; bottom: -28px; text-align: center; }
+    .hero-arrow { position: absolute; left: 0; right: 0; bottom: -28px; text-align: center; z-index: 2; }
     .hero-arrow a { color: #999; }
     @media (max-width: 767px) {
-      section.hero { padding-top: 70px; }
-      .hero-caption .cd-headline { display: block; max-width: 20em; }
+      /* on phones the hero is sized to its content instead of the viewport */
+      section.hero { min-height: 0; height: auto !important; padding: 72px 16px 64px; }   /* main.js pins #home to the window height */
+      .hero .hero-caption .cd-headline { display: block; font-size: 13px; max-width: 11.5em; }
+      .hero .hero-caption .cd-headline br, .hero .hero-caption .cd-headline .cd-words-wrapper { display: none !important; }   /* the headline plugin sets inline styles */
     }
     /* ── Abstract/BibTeX blocks ── */
     .abs-block, .bib-block { display: none; margin-top: 10px; }
@@ -299,8 +304,8 @@
   <!-- ══ Home / Banner ══ -->
   <section id="home" class="banner hero" data-scroll-index="0" style="display:none">
     <div class="hero-wrap">
-      <canvas id="hero-arm" width="1600" height="1000" aria-label="A Franka arm with a UMI gripper picking up the letter R and placing it into the name"></canvas>
-      <video id="hero-video" muted playsinline loop preload="auto" aria-hidden="true" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;">
+      <canvas id="hero-arm" width="1600" height="1000" aria-label="A Franka arm with a UMI gripper flips the mirrored letter R of the name back, drops it, catches it from the floor and puts it in place"></canvas>
+      <video id="hero-video" muted playsinline preload="auto" aria-hidden="true" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;">
         <source src="images/hero/hero.mp4" type="video/mp4">
         <source src="images/hero/hero.webm" type="video/webm">
       </video>
@@ -316,6 +321,8 @@
           </span>
         </p>
       </div>
+      <canvas id="hero-front" aria-hidden="true"></canvas>
+      <canvas id="hero-cables" aria-hidden="true"></canvas>
       <div class="arrow hero-arrow">
         <a class="fa fa-chevron-down fa-2x" href="#" data-scroll-nav="1" aria-label="Scroll to About"></a>
       </div>

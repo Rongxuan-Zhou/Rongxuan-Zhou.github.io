@@ -1,23 +1,30 @@
 # Hero animation generator
 
-The homepage hero is a Franka FR3 with a UMI-style gripper, drawn in the browser as a fine halftone (one dot per cell)
-from a pre-rendered video. The frames are ray-cast against the real FR3 visual meshes (MuJoCo Menagerie `franka_fr3`)
-with their materials, so the white links, black joint rings and base details are the real geometry. No OpenGL is needed.
+The homepage hero is a Franka FR3 with the UMI robot-side gripper, rendered offline from the real FR3 meshes
+(MuJoCo Menagerie `franka_fr3`) by ray casting (no OpenGL) and drawn in the browser as a fine halftone.
 
-Pipeline (Python with `mujoco`, `numpy`, `Pillow`, plus `ffmpeg`; the menagerie `fr3.xml` and its `assets/` next to the scripts):
+Story: the "R" of the headline starts mirrored at its home. The arm grasps it from above, pulls it off the glass, flips it
+180 degrees about the vertical axis, the R slips at the end of the flip and falls, the arm reacts after 120 ms, tracks it,
+grabs it on the floor, seats it at home and lets go; the page then dissolves the arm toward the name. Plays once.
 
-1. `build_scene.py` attaches a real-scale UMI-like gripper (primitives, orange finger pads) and a green LED ring to the FR3
-   and writes `fr3_umi.xml`.
-2. `traj.py` plans the motion in joint space with an orientation-constrained damped-least-squares IK (random restarts).
-   The gripper stays in the picture plane: approach angle `phi` (0 down, +90 right, -90 left). Sequence: factory pose,
-   idle reaches, grasp the mirrored R from its right side (phi -90), swing to +90 while carrying (a 180-degree flip),
-   place it in the headline, release; later grasp it on the floor from above (phi 0) and swing to -90 to put it back
-   mirrored. Targets are canvas fractions; a reachability scan picked them. Writes `traj.json`.
-3. `export.py` renders every frame with `halftone.py` (orthographic rays along +y against visual geoms only, albedo x
-   lighting) to PNG, encodes `hero.mp4` (H.264) and `hero.webm` (VP9) at 400x250, 15 fps, and writes `hero.json`
-   (per-frame gripper tip, phi and letter state). Pixel coding: grey = arm luminance, orange = finger pads, green = LED.
-   Copy the two videos and the JSON to `images/hero/`.
+Requirements: Python with `mujoco`, `numpy`, `Pillow`; `ffmpeg`; the menagerie `fr3.xml` and its `assets/` next to the scripts;
+the page font for the R: `raleway800.ttf` (Raleway ExtraBold, from the Google Fonts CSS for `Raleway:800`).
 
-`js/hero-arm.js` decodes the hidden `#hero-video` frame by frame onto an offscreen canvas, draws the dots on `#hero-arm`
-(ink, orange, breathing green), keeps the gripper trace, and moves the DOM letter `#hero-R`. The letter's fall is a
-small planar rigid-body simulation in the browser (gravity scaled to the canvas, restitution, settling on its side).
+1. `glyph.py` rasterizes the R and derives its physical model (70 mm ink height): ink box, centroid, area moments, and three
+   convex parts (stem, bowl, leg) for contact. Writes `glyph.json`.
+2. `build_scene.py` adds the UMI gripper as deployed on Franka (after the UMI teaser photo) as one connected assembly: flange
+   adapter, mount plate, gripper body, jaw guide, jaws, white finger mounts, orange Fin Ray fingers (inner wall, slanted back
+   wall, base, tip cap, 9 ribs) with black pads, GoPro with lens and side mirrors; plus the base LED ring at the link0/link1
+   seam and two cables. Writes `fr3_umi.xml`. `gripper_check.py` renders the gripper at 0.6 mm to look for gaps.
+3. `ikcore.py`: damped-least-squares IK on the fingertip site with a full orientation target (in-plane tilt `phi`, yaw `psi`).
+4. `fall.py`: the R's drop in MuJoCo, constrained to a plane parallel to the glass; acrylic, restitution about 0.4.
+5. `traj.py` plans the sequence as IK knots, runs the drop from the release pose, plans the floor grasp from the rest pose,
+   and interpolates joints with PCHIP. Writes `traj.json` (per-frame robot state and letter pose, plus the 240 Hz fall track).
+6. `export.py` renders every frame with `halftone.py` (2x2 supersampled, 560x350 cells) twice: the scene, and the gripper parts
+   in front of the letter during the flip. The two are stacked vertically and encoded as `hero.mp4` / `hero.webm` with
+   `hero.json`. Pixel coding: grey = luminance (<= 240), orange = Fin Ray fingers, green = LED ring, pure white = nothing.
+   Copy the three files to `images/hero/`.
+
+`js/hero-arm.js` decodes the hidden `#hero-video`, stamps the dots into `#hero-arm` (below the text) and `#hero-front`
+(above it), draws the floor line and the cable continuation, sizes the headline so the R is 70 mm in world scale, builds the
+R as a CSS 3D block (20 stacked glyph layers, perspective centred on its home), replays the letter pose, and runs the dissolve.
