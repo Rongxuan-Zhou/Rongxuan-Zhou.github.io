@@ -9,8 +9,10 @@ class Scene:
     def __init__(self, xml="fr3_umi.xml"):
         self.m = mujoco.MjModel.from_xml_path(xml); self.d = mujoco.MjData(self.m)
         m = self.m
-        self.orange = np.array([m.geom(i).name.endswith("_pad") for i in range(m.ngeom)])
-        self.led = np.array([m.geom(i).name == "led_ring" for i in range(m.ngeom)])
+        names = [m.geom(i).name for i in range(m.ngeom)]
+        self.far = np.array([n.startswith("umi_far_") and not n.endswith("_base") for n in names])
+        self.near = np.array([n.startswith("umi_near_") and not n.endswith("_base") for n in names])
+        self.led = np.array([n == "led_ring" for n in names])
         rgba = np.array([m.mat_rgba[m.geom_matid[i]] if m.geom_matid[i] >= 0 else m.geom_rgba[i] for i in range(m.ngeom)])
         self.albedo = 0.2126*rgba[:,0] + 0.7152*rgba[:,1] + 0.0722*rgba[:,2]
         self.groups = np.zeros(6, dtype=np.uint8); self.groups[[0, 2]] = 1      # my primitives (0) + menagerie visual meshes (2); no collision hulls (3)
@@ -18,7 +20,7 @@ class Scene:
         self.xs = X0 + (np.arange(NX) + 0.5) * (X1 - X0) / NX
         self.zs = Z1 - (np.arange(NY) + 0.5) * (Z1 - Z0) / NY
     def set_q(self, q, finger=0.0):
-        self.d.qpos[:7] = q; self.d.qpos[7] = -finger; self.d.qpos[8] = -finger
+        self.d.qpos[:7] = q; self.d.qpos[7] = finger; self.d.qpos[8] = -finger   # near finger slides +y, far finger -y
         mujoco.mj_forward(self.m, self.d)
     def tip(self):
         return self.d.xpos[self.tip_body] + self.d.xmat[self.tip_body].reshape(3,3) @ np.array([0,0,0.114])
@@ -48,7 +50,7 @@ class Scene:
         alb = self.albedo[g]
         lum = alb * (0.22 + 0.78 * diffuse) + 0.25 * spec
         lum = np.where(hit, np.clip(lum, 0, 1), -1.0)
-        mask = np.where(hit, np.where(self.led[g], 3, np.where(self.orange[g], 2, 1)), 0)
+        mask = np.where(hit, np.where(self.led[g], 3, np.where(self.near[g] | self.far[g], 2, 1)), 0)
         return lum, mask
 def preview(lum, mask, path, pitch=2, tip=None):
     from PIL import Image, ImageDraw
@@ -61,7 +63,7 @@ def preview(lum, mask, path, pitch=2, tip=None):
             r = pitch/2*1.05*np.sqrt(c)
             if r < 0.25: continue
             cx, cy = (i+0.5)*pitch, (j+0.5)*pitch
-            col = (236,112,20) if mask[j,i]==2 else ((40,210,90) if mask[j,i]==3 else (20,20,20))
+            col = (236,112,20) if mask[j,i] in (2,4) else ((40,210,90) if mask[j,i]==3 else (20,20,20))
             dr.ellipse([cx-r, cy-r, cx+r, cy+r], fill=col)
     if tip is not None:
         tx, ty = tip[0]*pitch, tip[1]*pitch; dr.line([tx-8,ty,tx+8,ty], fill=(53,82,242)); dr.line([tx,ty-8,tx,ty+8], fill=(53,82,242))

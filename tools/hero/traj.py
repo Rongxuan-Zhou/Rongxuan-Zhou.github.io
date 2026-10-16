@@ -12,8 +12,8 @@ def cell_to_world(cx, cy):
 C_PICK, C_PLACE, C_FLOOR = (0.40, 0.80), (0.58, 0.45), (0.60, 0.90)
 PICK, PLACE, FLOOR = cell_to_world(*C_PICK), cell_to_world(*C_PLACE), cell_to_world(*C_FLOOR)
 IDLE = [cell_to_world(0.58, 0.26), cell_to_world(0.70, 0.40), cell_to_world(0.50, 0.34)]
-LETTER_HALF = 0.045                             # half height of the letter (m): the grasp point is its centre, the tip stops at the edge
-LETTER_HALF_W = 0.034                           # half width, for the letter lying on its side
+LETTER_HALF = 0.035                             # half height of the letter (m): the grasp point is its centre, the tip stops at the edge
+LETTER_HALF_W = 0.027                           # half width, for the letter lying on its side
 def target_rot(phi):
     z = np.array([np.sin(phi), 0.0, -np.cos(phi)])          # approach: down at phi=0, right at +pi/2, left at -pi/2
     x = np.array([np.cos(phi), 0.0, np.sin(phi)])           # finger split axis, in plane
@@ -45,7 +45,7 @@ def _ik(p_des, phi, q0, iters=300):
     sc.set_q(q); return q, np.linalg.norm(p_des - sc.tip()), np.linalg.norm(e_r)
 smooth = lambda t: t*t*t*(10 + t*(-15 + 6*t))
 FPS = 15
-OPEN, CLOSED = 0.0, 0.030
+OPEN, CLOSED = 0.0, 0.005                       # fingers start 80 mm apart and close onto a 70 mm letter
 FACTORY = np.array([0, -0.785, 0, -2.356, 0, 1.571, 0.785])
 L, R_ = -np.pi/2, np.pi/2
 BACK = 0.10                                     # hover distance before a grasp, along the approach
