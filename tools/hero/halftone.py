@@ -1,6 +1,6 @@
 """Orthographic side-view halftone data from MuJoCo via ray casting: luminance + mask per cell, no OpenGL."""
 import mujoco, numpy as np
-NX, NY = 160, 100
+NX, NY = 256, 160
 X0, X1 = -1.05, 0.45          # world x window (m); base at the right
 Z0, Z1 = -0.03, 0.9075        # world z window (m); aspect 1.5:0.9375 = 1.6
 LIGHT = np.array([-0.5, -0.55, 0.65]); LIGHT /= np.linalg.norm(LIGHT)
@@ -8,6 +8,7 @@ class Scene:
     def __init__(self, xml="fr3_umi.xml"):
         self.m = mujoco.MjModel.from_xml_path(xml); self.d = mujoco.MjData(self.m)
         self.orange = np.array([self.m.geom(i).name.endswith("_pad") for i in range(self.m.ngeom)])
+        self.led = np.array([self.m.geom(i).name == "led_ring" for i in range(self.m.ngeom)])
         self.tip_body = self.m.body("umi_body").id
         self.xs = X0 + (np.arange(NX) + 0.5) * (X1 - X0) / NX
         self.zs = Z1 - (np.arange(NY) + 0.5) * (Z1 - Z0) / NY      # row 0 at the top
@@ -42,7 +43,8 @@ class Scene:
         lum = 0.16 + 0.84 * np.clip(n @ LIGHT, 0, None)
         rim = np.clip(1.0 / np.sqrt(1 + Dx**2 + Dz**2), 0, 1)       # how face-on the surface is
         lum = np.where(hit, lum, -1.0)
-        mask = np.where(hit, np.where(self.orange[np.clip(gid,0,None)], 2, 1), 0)
+        g = np.clip(gid,0,None)
+        mask = np.where(hit, np.where(self.led[g], 3, np.where(self.orange[g], 2, 1)), 0)
         return lum, rim, mask
 def preview(lum, rim, mask, path, pitch=4, dark=False, tip=None):
     from PIL import Image, ImageDraw
@@ -58,7 +60,7 @@ def preview(lum, rim, mask, path, pitch=4, dark=False, tip=None):
             r = pitch/2*1.02*np.sqrt(c)*grain[j,i]
             if r < 0.28: continue
             cx, cy = (i+0.5)*pitch, (j+0.5)*pitch
-            col = (236,112,20) if mask[j,i]==2 else ((230,230,230) if dark else (20,20,20))
+            col = (236,112,20) if mask[j,i]==2 else ((40,210,90) if mask[j,i]==3 else ((230,230,230) if dark else (20,20,20)))
             dr.ellipse([cx-r, cy-r, cx+r, cy+r], fill=col)
     if tip is not None:
         tx, ty = tip[0]*pitch, tip[1]*pitch; dr.line([tx-8,ty,tx+8,ty], fill=(53,82,242)); dr.line([tx,ty-8,tx,ty+8], fill=(53,82,242))

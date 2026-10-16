@@ -10,12 +10,12 @@ for k, fr in enumerate(F):
     lum, rim, mask = lum[:, ::-1], rim[:, ::-1], mask[:, ::-1]        # mirror: base on the left
     r, c = divmod(k, cols); tile = atlas[r*NY:(r+1)*NY, c*NX:(c+1)*NX]
     tile[..., 0] = np.where(mask > 0, np.clip(lum, 0, 1)*255, 0).astype(np.uint8)
-    tile[..., 1] = (mask * 127).astype(np.uint8)
-    tile[..., 2] = (np.clip(rim, 0, 1)*255).astype(np.uint8)
-    if k in (0, 45, 95, 150, 168, 185, 200, 225): keep[k] = (lum, rim, mask, [NX - fr["tip"][0], fr["tip"][1]])
+    tile[..., 1] = (mask * 85).astype(np.uint8)
+    tile[..., 2] = 0   # rim is derived in the browser from the mask's neighbours
+    if k in (0, 60, 150, 200, 250, 300, 360, n-1): keep[k] = (lum, rim, mask, [NX - fr["tip"][0], fr["tip"][1]])
 Image.fromarray(atlas).save("atlas.png", optimize=True)
-meta = {"fps": T["fps"], "nx": NX, "ny": NY, "cols": cols, "n": n, "pick": T["pick"], "place": T["place"],
-        "frames": [{"tip": [round(NX - f["tip"][0],2), f["tip"][1]], "theta": f["theta"], "state": f["state"], "f": round(f["f"],3)} for f in F]}
+meta = {"fps": T["fps"], "nx": NX, "ny": NY, "cols": cols, "n": n, "pick": T["pick"], "place": T["place"], "floor": T["floor"],
+        "frames": [{"tip": [round(NX - f["tip"][0],2), f["tip"][1]], "theta": f["theta"], "state": f["state"], "f": round(f["f"],3), "press": f.get("press",0)} for f in F]}
 json.dump(meta, open("hero.json","w"), separators=(",",":"))
 import os; print("rendered", n, "frames in %.1fs" % (time.time()-t), "atlas", atlas.shape, os.path.getsize("atlas.png")//1024, "KB json", os.path.getsize("hero.json")//1024, "KB")
 # contact sheet

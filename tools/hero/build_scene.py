@@ -20,6 +20,8 @@ for i,sgn in ((1,1),(2,-1)):
     j = f.add_joint(name=f"umi_slide{i}", type=mujoco.mjtJoint.mjJNT_SLIDE, axis=[0,1,0], range=[-0.035,0.0])
     box(f, f"umi_finger{i}_bar", [0,0,0.0], [0.012,0.006,0.012], black)
     box(f, f"umi_finger{i}_pad", [0,sgn*-0.004,0.05], [0.014,0.006,0.045], orange)
+link0 = next(bd for bd in spec.bodies if bd.name == "fr3_link0")
+led = link0.add_geom(name="led_ring", type=mujoco.mjtGeom.mjGEOM_CYLINDER, pos=[0,0,0.295], size=[0.083,0.006,0], rgba=[0.1,1,0.3,1], contype=0, conaffinity=0)
 spec.compile()
 xml = spec.to_xml()
 open("fr3_umi.xml","w").write(xml)

@@ -10,7 +10,7 @@ Pipeline (Python with `mujoco`, `numpy`, `Pillow`; the menagerie `fr3.xml` and i
    three idle reaches, then pick the mirrored letter, flip it (roll +90 to -90 deg) and place it. Writes `traj.json`.
    Pick/place/idle targets are given as canvas fractions; the canvas is mirrored so the base sits on the left.
 3. `export.py` renders every frame with `halftone.py` (orthographic rays along +y, normals from depth differences,
-   lighting from the upper left) into `atlas.png` (R = luminance, G = mask 0/127/254, B = how face-on) plus `hero.json`.
+   lighting from the upper left) into `atlas.png` (R = luminance, G = mask 0/85/170/255 for none/arm/orange pads/green LED, B unused) plus `hero.json`.
    Convert the atlas to lossless WebP and copy both to `images/hero/`.
 
 `js/hero-arm.js` plays the atlas on `#hero-arm`, draws the gripper trace, and moves the DOM letter `#hero-R`
