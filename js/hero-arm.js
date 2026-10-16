@@ -200,7 +200,19 @@
       }
     cctx.fill();
   }
-  var lastPx = null, shownFrame = -1, clock0 = 0;
+  var lastPx = null, shownFrame = -1, clock0 = 0, TRAIL_LIFE = 3.6;
+  // The TCP is sampled once per video frame (30 fps), so a fast move leaves cells-wide gaps. Fill the segment from the
+  // last trail point at half-cell steps with interpolated times: every grid cell the TCP crosses gets its own dot.
+  function pushTrail(tp, now) {
+    var last = trail[trail.length - 1];
+    if (!last) { trail.push([tp[0], tp[1], now]); return; }
+    var dx = tp[0] - last[0], dy = tp[1] - last[1], d = Math.hypot(dx, dy);
+    if (d < 0.5) return;
+    for (var n = Math.ceil(d / 0.5), i = 1; i <= n; i++) {
+      var u = i / n;
+      trail.push([last[0] + dx * u, last[1] + dy * u, last[2] + (now - last[2]) * u]);
+    }
+  }
   function drawFrame(frame, now, reuse) {                    // reuse: redraw the last decoded frame (LED breathing, resize)
     var px = reuse && lastPx ? lastPx : (lastPx = readFrame()), breath = 0.5 + 0.5 * Math.sin(now * 2 * Math.PI / 2.6);
     shownFrame = frame;
@@ -208,13 +220,16 @@
     var dots = []; dotsFrom(px, 0, dots, breath);
     base.reset(); drawFloor(base);
     for (var k = 0; k < dots.length; k += 5) base.plot(dots[k], dots[k + 1], dots[k + 2], COLS[dots[k + 3]], dots[k + 4]);
-    var tp = meta.frames[frame].tip, last = trail[trail.length - 1];
-    if (!last || Math.hypot(tp[0] - last[0], tp[1] - last[1]) > 0.6) trail.push([tp[0], tp[1], now]);
-    while (trail.length && now - trail[0][2] > 3.2) trail.shift();
-    for (var t = 0; t < trail.length; t++) {
-      var v = 1 - (now - trail[t][2]) / 3.2; if (v <= 0) continue;
-      var tx = (Math.floor(trail[t][0]) + 0.5) * pitch, ty = (Math.floor(trail[t][1]) + 0.5) * pitch, tr = pitch / 2 * 0.62 * Math.sqrt(v);
-      base.plot(tx, ty, tr, ACCENT, 0.9); dots.push(tx, ty, tr, 3, 0.9);
+    pushTrail(meta.frames[frame].tip, now);
+    while (trail.length && now - trail[0][2] > TRAIL_LIFE) trail.shift();
+    var seen = {};
+    for (var t = trail.length - 1; t >= 0; t--) {                 // newest first, one dot per grid cell
+      var v = 1 - (now - trail[t][2]) / TRAIL_LIFE; if (v <= 0) continue;
+      var ci = Math.floor(trail[t][0]), cj = Math.floor(trail[t][1]), key = ci * 4096 + cj;
+      if (seen[key]) continue;
+      seen[key] = 1;
+      var tx = (ci + 0.5) * pitch, ty = (cj + 0.5) * pitch, tr = pitch / 2 * 0.95 * Math.pow(v, 0.4);
+      base.plot(tx, ty, tr, ACCENT, 0.95); dots.push(tx, ty, tr, 3, 0.95);
     }
     base.flush();
     fore.reset();
